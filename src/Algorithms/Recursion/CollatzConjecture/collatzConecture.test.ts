@@ -22,7 +22,7 @@ describe('calculate how many steps it takes to get number 1', () => {
     expect(collatzConjecture(7)).toBe(16);
     expect(collatzConjecture(8)).toBe(3);
     expect(collatzConjecture(15)).toBe(17);
-    expect(collatzConjecture(15)).toBe(111);
+    expect(collatzConjecture(27)).toBe(111);
     expect(collatzConjecture(50)).toBe(24);
   });
 });
