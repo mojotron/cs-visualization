@@ -102,3 +102,15 @@
 // 1. Heap - where we store variables that we assign values to
 // 2. Stack - where we keep track of our function calls.
 // What causes Space Complexity => variables, DS, function calls, allocations
+
+// What are companies looking for?
+// 1. Analytic skills - how can you think through a problem and analyze things.
+// Your though process and how you go from not knowing the answer to solving
+// the problem.
+// 2. Coding skills - clean, organized, readable
+// 3. Technical skills - fundamentals, how you understand pros and cons
+// 4. Communication skills
+
+// For interviews
+// DS => array,stacks,queues,LL,trees,tries,graphs,Hash tables
+// algos => sorting, dynamic programming, BFS + DFS searching, recursion
