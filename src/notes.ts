@@ -102,7 +102,7 @@
 // 1. Heap - where we store variables that we assign values to
 // 2. Stack - where we keep track of our function calls.
 // What causes Space Complexity => variables, DS, function calls, allocations
-
+//
 // What are companies looking for?
 // 1. Analytic skills - how can you think through a problem and analyze things.
 // Your though process and how you go from not knowing the answer to solving
@@ -110,7 +110,30 @@
 // 2. Coding skills - clean, organized, readable
 // 3. Technical skills - fundamentals, how you understand pros and cons
 // 4. Communication skills
-
+//
 // For interviews
 // DS => array,stacks,queues,LL,trees,tries,graphs,Hash tables
 // algos => sorting, dynamic programming, BFS + DFS searching, recursion
+//
+// DS => collection of values, values can have relationships among them, and
+// they can have functions apply to them. Each one is diff in what it can do
+// and what it is best used for. Way to organize data.
+// Algos => steps or processes we put into place to manipulate these collection
+// of values.
+// DS + Algos = Programs
+// 2 parts to understand DS
+// - how to build one (mostly they are prebuild into language)
+// - how to use it
+// in order for computer to run code, it needs to keep track of things =>
+// variables(numbers, strings arrays). These variables are stored in what we
+// call random access memory (RAM). Storage for files and documents can be
+// hard disk, flash drive. Data on storage is permanent (persistent).
+// Persistent storage is slow. CPU does all calculations, needs access to RAM and
+// storage, access to RAM is lot faster
+// Operations on DS
+// - insertion - add new data item in a given collection
+// - deletion - remove data item
+// - traversal - access each data item exactly once that it can be processed
+// - searching - find location of data item if it exist in a given collection
+// - sorting -
+// - access - how do we access data item that we have on our computer

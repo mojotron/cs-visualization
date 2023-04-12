@@ -8,6 +8,9 @@ describe('sort array using merge sort algorithm', () => {
     expect(mergeSort([2, 3, 1, 4, 5])).toEqual([1, 2, 3, 4, 5]);
     expect(mergeSort([2, 4, 1, 3, 5])).toEqual([1, 2, 3, 4, 5]);
     expect(mergeSort([5, 4, 3, 2, 1])).toEqual([1, 2, 3, 4, 5]);
+    expect(mergeSort([10, 14, 28, 11, 7, 16, 30, 50, 25, 18])).toEqual([
+      7, 10, 11, 14, 16, 18, 25, 28, 30, 50,
+    ]);
   });
 
   test('sort strings', () => {
