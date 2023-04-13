@@ -137,3 +137,24 @@
 // - searching - find location of data item if it exist in a given collection
 // - sorting -
 // - access - how do we access data item that we have on our computer
+//
+// Arrays (lists) - organizes items sequentially, one after another in memory.
+// Because they are stored in contiguous memory (order), they have smallest
+// footprint on any data structure. If all you need is to store some data and
+// iterate over it (one by one) => arrays are best choice, especially if you
+// know the indices of the items you storing.
+// - lookup O(1)
+// - push O(1)
+// - insert O(n)
+// - delete O(n)
+// Static vs Dynamic Array
+// => static arrays are fixed in size, you specify the number of elements your
+// array will hold ahead of time. Dynamic arrays allow us to copy and rebuild
+// an array at new location with more memory (expands in memory as you keep items).
+// Lower level languages like C++ allow better control over memory, we can tweak code
+// to run faster
+// dynamic arr
+// - lookup O(1)
+// - append O(1) => can be O(n)
+// - insert O(n)
+// - delete O(n)
