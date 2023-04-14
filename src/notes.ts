@@ -158,3 +158,11 @@
 // - append O(1) => can be O(n)
 // - insert O(n)
 // - delete O(n)
+// Arrays pros
+// - fast lookups
+// - fast push/pop
+// - ordered
+// Array cons
+// - slow inserts
+// - slow deletes
+// - fixed size (if using static array)
