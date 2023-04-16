@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle, class-methods-use-this */
 
 interface ArrayDSInterface<T> {
   _length: number;
@@ -29,8 +29,11 @@ interface ArrayDSInterface<T> {
   indexOf(callback: (ele: T) => boolean): number | undefined;
   reverse(): ArrayDSInterface<T>;
   join(separator: string): string;
-  slice(start: number, end: number): ArrayDSInterface<T>;
-  // sort
+  slice(start: number, end?: number): ArrayDSInterface<T>;
+  sort(
+    callback: (a: T, b: T) => number,
+    arr?: ArrayDSInterface<T>
+  ): ArrayDSInterface<T>;
 }
 
 class ArrayDS<T> implements ArrayDSInterface<T> {
@@ -200,8 +203,71 @@ class ArrayDS<T> implements ArrayDSInterface<T> {
     return joined;
   }
 
-  slice(start: number, end: number): ArrayDS<T> {
-    return this;
+  slice(start = 0, end?: number): ArrayDS<T> {
+    let startPointer = start;
+    if (startPointer < 0) startPointer += this._length;
+    if (startPointer < -this._length) startPointer = 0;
+
+    let endPointer = end || this._length;
+    if (endPointer < 0) endPointer += this._length;
+    if (endPointer < -this._length) endPointer = 0;
+    if (endPointer >= this._length) endPointer = this._length;
+
+    const sliced = new ArrayDS<T>();
+
+    for (let i = startPointer; i < endPointer; i += 1) {
+      sliced.push(this._data[i]);
+    }
+
+    return sliced;
+  }
+
+  private merge(
+    callback: (a: T, b: T) => number,
+    arr1: ArrayDS<T>,
+    arr2: ArrayDS<T>
+  ) {
+    const merged = new ArrayDS<T>();
+    let arr1Pointer = 0;
+    let arr2Pointer = 0;
+    let comparison: number;
+
+    while (arr1Pointer < arr1._length && arr2Pointer < arr2._length) {
+      comparison = callback(arr1._data[arr1Pointer], arr2._data[arr2Pointer]);
+      if (comparison === 1) {
+        merged.push(arr2._data[arr2Pointer]);
+        arr2Pointer += 1;
+      } else {
+        merged.push(arr1._data[arr1Pointer]);
+        arr1Pointer += 1;
+      }
+    }
+
+    if (arr1Pointer < arr1._length) {
+      while (arr1Pointer < arr1._length) {
+        merged.push(arr1._data[arr1Pointer]);
+        arr1Pointer += 1;
+      }
+    }
+    if (arr2Pointer < arr2._length) {
+      while (arr2Pointer < arr2._length) {
+        merged.push(arr2._data[arr2Pointer]);
+        arr2Pointer += 1;
+      }
+    }
+    return merged;
+  }
+
+  sort(callback: (a: T, b: T) => number, arr: ArrayDS<T> = this): ArrayDS<T> {
+    if (arr._length === 1) return arr;
+    const half = Math.floor(arr._length / 2);
+    const left = arr.slice(0, half);
+    const right = arr.slice(half);
+    return this.merge(
+      callback,
+      this.sort(callback, left),
+      this.sort(callback, right)
+    );
   }
 }
 

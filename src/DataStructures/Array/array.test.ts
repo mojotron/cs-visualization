@@ -300,4 +300,148 @@ describe('Custom Array Data Structure', () => {
     const joined2 = arr2.join(' + ');
     expect(joined2).toBe('[object Object] + [object Object] + [object Object]');
   });
+
+  describe('slice array', () => {
+    test('no arguments passed return copy', () => {
+      const arr = new ArrayDS<string>();
+      arr.push('a');
+      arr.push('b');
+      arr.push('c');
+      arr.push('d');
+      arr.push('e');
+      arr.push('f');
+      const sliced = arr.slice();
+      expect(sliced).toEqual(arr);
+      expect(arr).not.toBe(sliced);
+    });
+
+    test('single argument passed, slice array from that point to end', () => {
+      const arr = new ArrayDS<string>();
+      arr.push('a');
+      arr.push('b');
+      arr.push('c');
+      arr.push('d');
+      arr.push('e');
+      arr.push('f');
+      const sliced = arr.slice(2);
+      expect(sliced).toEqual({
+        _length: 4,
+        _data: { 0: 'c', 1: 'd', 2: 'e', 3: 'f' },
+      });
+    });
+
+    test('start and end argument passed cut chunk out not including end', () => {
+      const arr = new ArrayDS<string>();
+      arr.push('a');
+      arr.push('b');
+      arr.push('c');
+      arr.push('d');
+      arr.push('e');
+      arr.push('f');
+      const sliced1 = arr.slice(2, 4);
+      expect(sliced1).toEqual({
+        _length: 2,
+        _data: { 0: 'c', 1: 'd' },
+      });
+      const sliced2 = arr.slice(1, 5);
+      expect(sliced2).toEqual({
+        _length: 4,
+        _data: { 0: 'b', 1: 'c', 2: 'd', 3: 'e' },
+      });
+    });
+
+    test('negative start argument slice from end of array', () => {
+      const arr = new ArrayDS<string>();
+      arr.push('a');
+      arr.push('b');
+      arr.push('c');
+      arr.push('d');
+      arr.push('e');
+      arr.push('f');
+      const sliced1 = arr.slice(-2);
+      expect(sliced1).toEqual({
+        _length: 2,
+        _data: { 0: 'e', 1: 'f' },
+      });
+      const sliced2 = arr.slice(-4);
+      expect(sliced2).toEqual({
+        _length: 4,
+        _data: { 0: 'c', 1: 'd', 2: 'e', 3: 'f' },
+      });
+    });
+
+    test('negative end argument', () => {
+      const arr = new ArrayDS<string>();
+      arr.push('a');
+      arr.push('b');
+      arr.push('c');
+      arr.push('d');
+      arr.push('e');
+      arr.push('f');
+      const sliced1 = arr.slice(2, -1);
+      expect(sliced1).toEqual({
+        _length: 3,
+        _data: { 0: 'c', 1: 'd', 2: 'e' },
+      });
+      const sliced2 = arr.slice(1, -3);
+      expect(sliced2).toEqual({
+        _length: 2,
+        _data: { 0: 'b', 1: 'c' },
+      });
+    });
+  });
+
+  describe('sort array using O2LogN time complexity with merge sort', () => {
+    test('sort strings', () => {
+      const arr = new ArrayDS<string>();
+      arr.push('f');
+      arr.push('e');
+      arr.push('d');
+      arr.push('c');
+      arr.push('b');
+      arr.push('a');
+      const sorted = arr.sort((a, b) => (a < b ? -1 : 1));
+      expect(sorted).toEqual({
+        _length: 6,
+        _data: { 0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f' },
+      });
+    });
+
+    test('sort numbers', () => {
+      const arr = new ArrayDS<number>();
+      arr.push(4);
+      arr.push(3);
+      arr.push(2);
+      arr.push(1);
+      arr.push(5);
+      // sort descending order
+      const sorted = arr.sort((a, b) => (a > b ? -1 : 1));
+      expect(sorted).toEqual({
+        _length: 5,
+        _data: { 0: 5, 1: 4, 2: 3, 3: 2, 4: 1 },
+      });
+    });
+
+    test('sort objects', () => {
+      const arr = new ArrayDS<{ name: string }>();
+      arr.push({ name: 'f' });
+      arr.push({ name: 'e' });
+      arr.push({ name: 'd' });
+      arr.push({ name: 'c' });
+      arr.push({ name: 'b' });
+      arr.push({ name: 'a' });
+      const sorted = arr.sort((a, b) => (a.name < b.name ? -1 : 1));
+      expect(sorted).toEqual({
+        _length: 6,
+        _data: {
+          0: { name: 'a' },
+          1: { name: 'b' },
+          2: { name: 'c' },
+          3: { name: 'd' },
+          4: { name: 'e' },
+          5: { name: 'f' },
+        },
+      });
+    });
+  });
 });
