@@ -166,3 +166,34 @@
 // - slow inserts
 // - slow deletes
 // - fixed size (if using static array)
+//
+// Hash Tables (hash/maps/unordered maps/dictionaries/objects)
+// JS => objects, Python => dictionary, Java => maps, Ruby => hashes
+// hashes are used a lot in DBs and caches
+// hash tables => key/value pair (stores key and value in memory)
+// - key => used as index of where to find the value in memory
+// - value
+// Hash function => function that generates a value of fixed length for each
+// input that is gets
+// key => send through a hash function => hash something really really fast =>
+// map whatever the hash came out to be into a memory address => store it
+// (obj.apples => 23fjfjdw00ww0 => 23fjfjdw00ww0 = 3) Big O(1)
+// - insert O(1)
+// - lookup O(1)
+// - delete O(1)
+// - search O(1)
+// Hash Collisions => hash function randomly assigns a space and memory and
+// put it there. Nothing is telling hash function to evenly distribute until
+// everything is full.
+// collision example:
+// ----------------------------------------------------------------
+// keys   address   bucket          overflow entries
+// apple     015   apple|124-689 => banana|124-733 <- linked list
+// banana    015
+// ----------------------------------------------------------------
+// we can't avoid these collisions, with enough data and limited memory
+// there is possibility to constantly add items to same memory space, theoretically
+// when there is collision it slows down reading and writing with a hash table
+// to O(n/k) => k is size of has table => removing constant => O(n)
+// dealing with collisions => Linked List DS (separate chaining)
+// there are many more solutions.
