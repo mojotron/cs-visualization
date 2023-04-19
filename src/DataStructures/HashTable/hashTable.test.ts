@@ -107,14 +107,4 @@ describe('Implement own Hash Table Data Structure', () => {
     expect(resultStrings).toBe('ab');
     expect(resultNumbers).toBe(30);
   });
-
-  describe('Interview questions', () => {
-    test('first recurring element', () => {
-      // const example1 = [2, 5, 1, 2, 3, 5, 1, 2, 4];
-      // const example2 = [2, 1, 1, 2, 3, 5, 1, 2, 4];
-      // const example3 = [2, 3, 4, 5];
-      // let result;
-      // const hash = HashTable(5);
-    });
-  });
 });

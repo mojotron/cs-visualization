@@ -197,3 +197,12 @@
 // to O(n/k) => k is size of has table => removing constant => O(n)
 // dealing with collisions => Linked List DS (separate chaining)
 // there are many more solutions.
+// Pros (need good collision resolutions)
+// - fast lookups
+// - fast inserts
+// - flexible keys
+// Cons
+// - unordered
+// - slow key iterations
+//
+// LinkedList
