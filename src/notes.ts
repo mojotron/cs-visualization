@@ -206,3 +206,37 @@
 // - slow key iterations
 //
 // LinkedList
+// with static array we only have certain amount of memory that we can allocate.
+// Both dynamic and static arrays can increases memory once it hits a certain
+// limit and double up that memory in another location => performance implication
+// O(n). Arrays have bad performance for any sort of operations like insert and
+// delete that have to shift indexes over.
+// Hash tables => store things for us and know where to place it in memory. But
+// they are not ordered.
+// LL => ['a', 1] -> ['b', 2] -> ['c', 3] -> null
+//         ^^ head                ^^ tail
+// LL contains set of nodes(blocks). Node have 2 elements the value of the data
+// you want to store, and a pointer to the next node in line. They are null
+// terminated => signifies that it's the ned of list
+// Main diff between arrays and LL is that in an array, an element or elements
+// are indexed, in a LL you start at the hea and traverse the list until you get
+// to item => O(n). Traversal is like array iteration but you don't really know
+// when the length list will end => start from the head until you hit null.
+// Another advantage of array => most computers have caching system that makes
+// reading from sequential memory (shelves right next of each other), faster
+// then reading scattered addresses. Array items are always next to each other
+// in computer memory.
+// Inserts that we can do in the middle of a LL are a lot better then an array,
+// no shifting/unshifting items.
+// In difference to HT in LL there is some order => each node points to the next
+// node so you can have sorted data unlike a hash table.
+// Operations
+// - prepend O(1)
+// - append O(1)
+// - lookup O(n)
+// - insert O(n)
+// - delete O(n)
+// Pointer => reference to another place in memory or another object or another
+// node.
+// Js => garbage collected => memory is cleaned automatically, in low level langs
+// you have to manually delete/clean unreferenced item in memory.
