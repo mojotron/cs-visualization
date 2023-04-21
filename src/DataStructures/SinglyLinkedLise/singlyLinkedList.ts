@@ -17,7 +17,14 @@ type SinglyLinkedListType<T> = {
   append: (value: T) => number;
   prepend: (value: T) => number;
   insert: (index: number, value: T) => number | undefined;
+  pop: () => T | undefined;
+  shift: () => T | undefined;
+  deleteAt: (index: number) => T | undefined;
   forEach: (callback: (value: T, index: number) => void) => void;
+  print: () => void;
+  search: (callback: (ele: T, index: number) => boolean) => T | undefined;
+  reverse: () => SinglyLinkedListType<T>;
+  sort: () => SinglyLinkedListType<T>;
 };
 
 function SinglyLinkedList<T>(): SinglyLinkedListType<T> {
@@ -41,7 +48,7 @@ function SinglyLinkedList<T>(): SinglyLinkedListType<T> {
       position += 1;
       pointer = pointer.next;
     }
-    // pointer to null is not returned
+    // pointer to null (last element) is not returned
   };
 
   // insertion
@@ -87,6 +94,87 @@ function SinglyLinkedList<T>(): SinglyLinkedListType<T> {
     return length;
   };
 
+  const removeFirstItem = (): T | undefined => {
+    if (head === null) return;
+    const { value } = head;
+    head = null;
+    tail = null;
+    length = 0;
+    return value;
+  };
+
+  // deletion
+  const pop = (): T | undefined => {
+    if (head === null) return undefined;
+    if (length === 1) return removeFirstItem();
+
+    let pointer = head;
+    let pointerNext = head.next;
+
+    while (pointerNext!.next !== null) {
+      pointer = pointer.next as NodeType<T>;
+      pointerNext = pointer.next as NodeType<T>;
+    }
+
+    pointer.next = null;
+    tail = pointer;
+    length -= 1;
+    return pointerNext!.value;
+  };
+
+  const shift = (): T | undefined => {
+    if (head === null) return;
+    if (length === 1) return removeFirstItem();
+
+    const { value } = head;
+    head = head.next;
+    length -= 1;
+    return value;
+  };
+
+  const deleteAt = (index: number): T | undefined => {
+    if (head === null || index < 0 || index > length - 1) return undefined;
+    if (index === 0) return shift();
+    if (index === length - 1) return pop();
+
+    let pointer = head;
+    for (let i = 0; i < index - 1; i += 1) {
+      pointer = pointer.next as NodeType<T>;
+    }
+
+    const deletedNode = pointer.next;
+    pointer.next = deletedNode!.next;
+    length -= 1;
+    return deletedNode!.value;
+  };
+
+  const print = () => {
+    const result: (T | null)[] = [];
+    forEach((ele) => result.push(ele));
+    result.push(null);
+    console.log(result.join('->'));
+  };
+
+  const search = (
+    callback: (ele: T, index: number) => boolean
+  ): T | undefined => {
+    if (head === null) return undefined;
+    let position = 0;
+    let pointer = head;
+    while (pointer !== null) {
+      if (callback(pointer.value, position)) return pointer.value;
+      position += 1;
+      pointer = pointer.next as NodeType<T>;
+    }
+    return undefined;
+  };
+  const reverse = (): SinglyLinkedListType<T> => {
+    return SinglyLinkedList<T>();
+  };
+  const sort = (): SinglyLinkedListType<T> => {
+    return SinglyLinkedList<T>();
+  };
+
   return {
     // getters
     get head(): T | null {
@@ -100,11 +188,20 @@ function SinglyLinkedList<T>(): SinglyLinkedListType<T> {
     get length(): number {
       return length;
     },
+    forEach,
     // insertion
     append,
     prepend,
     insert,
-    forEach,
+    // deletion
+    pop,
+    shift,
+    deleteAt,
+    //
+    search,
+    reverse,
+    sort,
+    print,
   };
 }
 
