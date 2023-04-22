@@ -79,6 +79,7 @@ describe('Singly Link List', () => {
       });
       expect(values).toEqual(['a', 'd', 'f', 'c', 'b']);
     });
+
     test('mix insertion methods', () => {
       const list = SinglyLinkedList<string>();
       list.append('a');
@@ -203,6 +204,22 @@ describe('Singly Link List', () => {
       expect(firstPremium).toEqual({ userName: 'Bob', age: 35, premium: true });
     });
   });
-  // describe('reverse', () => {});
+
+  describe('reverse', () => {
+    test('reverse list of strings', () => {
+      const list = SinglyLinkedList<string>();
+      list.prepend('a');
+      list.prepend('b');
+      list.prepend('c');
+      let arr: string[] = [];
+      const cb = (ele: string) => arr.push(ele);
+      list.forEach(cb);
+      expect(arr).toEqual(['c', 'b', 'a']);
+      arr = [];
+      const reversed = list.reverse();
+      reversed.forEach(cb);
+      expect(arr).toEqual(['a', 'b', 'c']);
+    });
+  });
   // describe('sort', () => {});
 });

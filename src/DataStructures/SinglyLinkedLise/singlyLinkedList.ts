@@ -150,7 +150,7 @@ function SinglyLinkedList<T>(): SinglyLinkedListType<T> {
 
   const print = () => {
     const result: (T | null)[] = [];
-    forEach((ele) => result.push(ele));
+    forEach((value) => result.push(value));
     result.push(null);
     console.log(result.join('->'));
   };
@@ -168,9 +168,20 @@ function SinglyLinkedList<T>(): SinglyLinkedListType<T> {
     }
     return undefined;
   };
+
   const reverse = (): SinglyLinkedListType<T> => {
-    return SinglyLinkedList<T>();
+    // using stack method O(2n)
+    const reversed = SinglyLinkedList<T>();
+    const stack: T[] = [];
+    forEach((value) => stack.push(value));
+    while (stack.length > 0) {
+      reversed.append(stack.pop() as T);
+    }
+    return reversed;
   };
+
+  // const reverse2 = (): SinglyLinkedListType<T> => {};
+
   const sort = (): SinglyLinkedListType<T> => {
     return SinglyLinkedList<T>();
   };

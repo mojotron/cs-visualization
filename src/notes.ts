@@ -240,3 +240,9 @@
 // node.
 // Js => garbage collected => memory is cleaned automatically, in low level langs
 // you have to manually delete/clean unreferenced item in memory.
+// Doubly Linked List => links to the node before it
+//          head              tail
+//         [ a  ]   [ b  ]   [ c  ]
+//         [next] > [next] > [next] > null
+//  null < [prev] < [prev] < [prev]
+//
