@@ -221,5 +221,20 @@ describe('Singly Link List', () => {
       expect(arr).toEqual(['a', 'b', 'c']);
     });
   });
+
+  test('reverse in place', () => {
+    const list = SinglyLinkedList<string>();
+    list.prepend('a');
+    list.prepend('b');
+    list.prepend('c');
+    let arr: string[] = [];
+    const cb = (ele: string) => arr.push(ele);
+    list.forEach(cb);
+    expect(arr).toEqual(['c', 'b', 'a']);
+    arr = [];
+    list.reverseInPlace();
+    list.forEach(cb);
+    expect(arr).toEqual(['a', 'b', 'c']);
+  });
   // describe('sort', () => {});
 });

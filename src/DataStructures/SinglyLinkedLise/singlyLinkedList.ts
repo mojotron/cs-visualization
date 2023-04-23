@@ -24,6 +24,7 @@ type SinglyLinkedListType<T> = {
   print: () => void;
   search: (callback: (ele: T, index: number) => boolean) => T | undefined;
   reverse: () => SinglyLinkedListType<T>;
+  reverseInPlace: () => void;
   sort: () => SinglyLinkedListType<T>;
 };
 
@@ -180,7 +181,18 @@ function SinglyLinkedList<T>(): SinglyLinkedListType<T> {
     return reversed;
   };
 
-  // const reverse2 = (): SinglyLinkedListType<T> => {};
+  const reverseInPlace = (): void => {
+    let prev = null;
+    let current = head;
+
+    while (current) {
+      const temp = current.next;
+      current.next = prev;
+      prev = current;
+      current = temp;
+    }
+    head = prev;
+  };
 
   const sort = (): SinglyLinkedListType<T> => {
     return SinglyLinkedList<T>();
@@ -213,6 +225,7 @@ function SinglyLinkedList<T>(): SinglyLinkedListType<T> {
     reverse,
     sort,
     print,
+    reverseInPlace,
   };
 }
 

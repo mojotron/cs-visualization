@@ -245,4 +245,9 @@
 //         [ a  ]   [ b  ]   [ c  ]
 //         [next] > [next] > [next] > null
 //  null < [prev] < [prev] < [prev]
-//
+// Single vs Double
+// single require less memory (little bit faster), but cannot be iterated in reverse
+// use sll when you have less memory or memory is really expensive, main goal is
+// to do fast insertion and deletions without much searching
+// use dll when you don't have much limitation on memory and when you want
+// good operation for searching (forward or backwards)
