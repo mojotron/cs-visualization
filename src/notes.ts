@@ -251,3 +251,40 @@
 // to do fast insertion and deletions without much searching
 // use dll when you don't have much limitation on memory and when you want
 // good operation for searching (forward or backwards)
+// Prose                 Cones
+// - fast insertion    - slow lookup
+// - fast deletion     - more memory
+// - ordered
+// - flexible size
+//
+// Stack & Queues
+// - linear data structure => allow us to traverse, but only one data element
+// can be directly reached. Implemented in similar ways, main diff is only how
+// items get removed from this data structure. Unlike an array there's no random
+// access operation. They deal with element at beginning of data structure push,
+// pop, peek. In cs having limited ability on ds is advantage => control them.
+//
+// > Stacks (LIFO)
+// - programming languages engine modeled with the stack architecture (function
+//  calls), browser history, undo state.
+// Operations
+// - lookup O(n) -> this operation is not used!
+// - pop O(1)
+// - push O(1)
+// - peek/top O(1)
+// Can be implemented using arr or LL => both going to work fairly well. Arr
+// allows cache locality => makes them technically faster when accessing its items in
+// memory because they are right next to each other, versus LL that has them
+// scattered all over memory. LL use more memory for pointers, but static or
+// dynamic array has certain amount of memory and as soon it it's about to reach
+// its limit, it's going to have to double up that memory and create new space
+//
+// > Queues (FIFO)
+// - wait list app (tickets, uber), printer
+// Operations
+// - lookup O(n) -> this operation is not used!
+// - enqueue O(1)
+// - dequeue O(1)
+// - peek/top O(1)
+// creating queue from array (is really bad) => on enqueue we need shift rest
+// of array
