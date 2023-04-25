@@ -10,7 +10,7 @@ function Node<T>(value: T): NodeType<T> {
   };
 }
 
-type QueueType<T> = {
+export type QueueType<T> = {
   enqueue: (value: T) => number;
   dequeue: () => T | undefined;
   front: () => T | undefined;

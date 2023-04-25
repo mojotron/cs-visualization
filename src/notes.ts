@@ -288,3 +288,44 @@
 // - peek/top O(1)
 // creating queue from array (is really bad) => on enqueue we need shift rest
 // of array
+//
+// Trees
+// - hierarchical DS, tree usually starts whit a single root node (parent node),
+// and every child of the tree descends from this root node. Every child of node
+// descends from only one parent. Leaf very end of tree ds.
+// Examples => DOM, facebook users
+// Abstract syntax tree => how programs run code, code is broken down by the
+// machine into AST
+// LL is type of tree => linear, going one way from top to bottom. Diff node
+// can only point to a child.
+//
+// Binary Trees
+// - each node can only have 0,1 or 2 child nodes, child node can have only one
+// parent node.
+// Perfect BT all leaf nodes are full, there is no node that only has 1 child.
+// - node either has zero children or two children and the bottom layer of the
+//   tree is completely filled.
+// - this type of tree is really efficient and desirable, when they are perfect
+//   they have properties => 1.number of total nodes doubles as we move down the
+//   tree, 2. number of nodes on the last level is equal to the sum of the number
+//   of nodes on all the other levels + 1
+// => we have half of the data in the bottom level, if we avoid visiting every
+//    node (even if the node we are looking for is the very bottom)
+// => Operations => lookup / insert / delete <= O(log N)
+//
+// O(log N)
+// - simply means that based on the height, the maximum number of decisions (
+// looking for node) is going to to be log n => if current node is not value we
+// looking for we can go either left or right => we have maximum tree height steps
+//
+// Binary Search Tree -> subset of binary tree
+// great for comparing things, this DS preserve relationships (unlike hash tables)
+// Rules
+// 1. all child trees to the right of root node must be greater then current node
+// 2. node can only have up to two children
+// Balance BST => Operations => lookup / insert / delete <= O(log N)
+// Unbalanced BST => Operations => lookup / insert / delete <= O(N)
+// -> need optimization algo because can easily turn to LL if we for example add
+// sorted data [1,2,3,4] => balanced BST with AVL and Red/Black tree
+// BST pros => better than O(n), ordered and flexible size(memory)
+// BST cons => no O(1) operations

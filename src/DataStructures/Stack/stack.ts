@@ -14,6 +14,7 @@ type StackType<T> = {
   push: (value: T) => void;
   pop: () => T | undefined;
   top: () => T | undefined;
+  bottom: () => T | undefined;
   isEmpty: () => boolean;
   size: () => number;
 };
@@ -21,12 +22,14 @@ type StackType<T> = {
 function Stack<T>(): StackType<T> {
   let length = 0;
   let head: NodeType<T> | null = null;
+  let tail: NodeType<T> | null = null;
   // const arr: T[] = []; // arr implementation
 
   const push = (value: T): number => {
     const newNode = Node(value);
     if (head === null) {
       head = newNode;
+      tail = newNode;
     } else {
       newNode.next = head;
       head = newNode;
@@ -43,6 +46,7 @@ function Stack<T>(): StackType<T> {
 
     if (length === 1) {
       head = null;
+      tail = null;
       length = 0;
     } else {
       head = head!.next;
@@ -56,6 +60,10 @@ function Stack<T>(): StackType<T> {
   const top = (): T | undefined => {
     return head === null ? undefined : head.value;
     // return arr[arr.length - 1];  // arr implementation
+  };
+
+  const bottom = (): T | undefined => {
+    return tail === null ? undefined : tail.value;
   };
 
   const isEmpty = (): boolean => {
@@ -72,6 +80,7 @@ function Stack<T>(): StackType<T> {
     push,
     pop,
     top,
+    bottom,
     isEmpty,
     size,
   };

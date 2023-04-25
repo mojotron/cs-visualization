@@ -6,6 +6,7 @@ describe('Stack DS implementation', () => {
     const stack = Stack<string>();
     expect(stack.size()).toBe(0);
     expect(stack.top()).toBe(undefined);
+    expect(stack.bottom()).toBe(undefined);
     expect(stack.isEmpty()).toBe(true);
   });
 
@@ -14,14 +15,17 @@ describe('Stack DS implementation', () => {
     stack.push('a');
     expect(stack.size()).toBe(1);
     expect(stack.top()).toBe('a');
+    expect(stack.bottom()).toBe('a');
     expect(stack.isEmpty()).toBe(false);
     stack.push('b');
     expect(stack.size()).toBe(2);
     expect(stack.top()).toBe('b');
+    expect(stack.bottom()).toBe('a');
     expect(stack.isEmpty()).toBe(false);
     stack.push('c');
     expect(stack.size()).toBe(3);
     expect(stack.top()).toBe('c');
+    expect(stack.bottom()).toBe('a');
     expect(stack.isEmpty()).toBe(false);
   });
 
@@ -34,16 +38,19 @@ describe('Stack DS implementation', () => {
     expect(c).toBe('c');
     expect(stack.size()).toBe(2);
     expect(stack.top()).toBe('b');
+    expect(stack.bottom()).toBe('a');
     expect(stack.isEmpty()).toBe(false);
     const b = stack.pop();
     expect(b).toBe('b');
     expect(stack.size()).toBe(1);
     expect(stack.top()).toBe('a');
+    expect(stack.bottom()).toBe('a');
     expect(stack.isEmpty()).toBe(false);
     const a = stack.pop();
     expect(a).toBe('a');
     expect(stack.size()).toBe(0);
     expect(stack.top()).toBe(undefined);
+    expect(stack.bottom()).toBe(undefined);
     expect(stack.isEmpty()).toBe(true);
     const x = stack.pop();
     expect(x).toBe(undefined);
