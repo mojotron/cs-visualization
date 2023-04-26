@@ -2,7 +2,7 @@ import { describe, test, expect } from 'vitest';
 import BinarySearchTree from './binarySearchTree';
 
 describe('Binary Search Tree', () => {
-  test('insert element', () => {
+  test('insert element - create perfect binary tree', () => {
     const bst = BinarySearchTree<number>();
     bst.insert(50);
     bst.insert(30);
@@ -20,5 +20,7 @@ describe('Binary Search Tree', () => {
     const postOrder: number[] = [];
     bst.forEach('postOrder', (v) => postOrder.push(v));
     expect(postOrder).toEqual([20, 40, 30, 60, 80, 70, 50]);
+
+    expect(bst.search(80, 'depth')).toBe(80);
   });
 });

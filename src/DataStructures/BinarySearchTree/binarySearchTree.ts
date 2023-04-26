@@ -16,7 +16,7 @@ function Node<T>(value: T): NodeType<T> {
 
 type BinarySearchTreeType<T> = {
   insert: (value: T) => void;
-  search: (value: T) => T | undefined;
+  search: (value: T, direction: 'depth' | 'breath') => T | undefined;
   remove: (value: T) => T | undefined;
   forEach: (
     traversal: 'inOrder' | 'preOrder' | 'postOrder',
@@ -28,6 +28,30 @@ type BinarySearchTreeType<T> = {
 function BinarySearchTree<T>(): BinarySearchTreeType<T> {
   let root: NodeType<T> | null = null;
 
+  const insertNewNodeLoop = (value: T): void => {
+    const newNode = Node(value);
+    if (root === null) {
+      root = newNode;
+    } else {
+      let pointer = root as NodeType<T>;
+      while (true) {
+        if (value < pointer.value) {
+          if (pointer.left === null) {
+            pointer.left = newNode;
+            return;
+          }
+          pointer = pointer.left;
+        } else {
+          if (pointer.right === null) {
+            pointer.right = newNode;
+            return;
+          }
+          pointer = pointer.right;
+        }
+      }
+    }
+  };
+
   const insertNewNode = (value: T, rootNode: NodeType<T>): NodeType<T> => {
     if (rootNode === null) {
       rootNode = Node(value);
@@ -36,7 +60,7 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     if (value < rootNode.value) {
       rootNode.left = insertNewNode(value, rootNode.left as NodeType<T>);
     }
-    if (value > rootNode.value) {
+    if (value >= rootNode.value) {
       rootNode.right = insertNewNode(value, rootNode.right as NodeType<T>);
     }
 
@@ -44,15 +68,8 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
   };
 
   const insert = (value: T): void => {
+    // insertNewNodeLoop(value);
     root = insertNewNode(value, root as NodeType<T>);
-  };
-
-  const search = (value: T): T | undefined => {
-    return undefined;
-  };
-
-  const remove = (value: T): T | undefined => {
-    return undefined;
   };
 
   // traversal
@@ -74,6 +91,41 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     callback: (value: T) => void
   ) => {
     traverse(root as NodeType<T>, traversal, callback);
+  };
+
+  // search TODO BRAIN NOT FOUND
+  const depthFirstSearch = (
+    value: T,
+    rootNode = root as NodeType<T>
+  ): T | undefined => {
+    if (rootNode === null) return undefined;
+    if (value < (rootNode.value as NodeType<T>))
+      depthFirstSearch(value, rootNode.left as NodeType<T>);
+    if (value > (rootNode.value as NodeType<T>))
+      depthFirstSearch(value, rootNode.right as NodeType<T>);
+    if (rootNode.value === value) {
+      console.log(rootNode.value);
+      return rootNode.value;
+    }
+  };
+
+  const breathFirstSearch = (value: T): T | undefined => {
+    return undefined;
+  };
+
+  const search = (
+    value: T,
+    direction: 'depth' | 'breath' = 'depth'
+  ): T | undefined => {
+    if (root === null) return undefined;
+    const x = depthFirstSearch(value);
+    // if (direction) return depthFirstSearch(value);
+    console.log('x', x);
+    // return breathFirstSearch(value);
+  };
+
+  const remove = (value: T): T | undefined => {
+    return undefined;
   };
 
   const balance = () => {};
