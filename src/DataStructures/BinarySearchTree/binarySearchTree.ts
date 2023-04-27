@@ -17,7 +17,7 @@ function Node<T>(value: T): NodeType<T> {
 type BinarySearchTreeType<T> = {
   insert: (value: T) => void;
   search: (value: T, direction: 'depth' | 'breath') => T | undefined;
-  remove: (value: T) => T | undefined;
+  remove: (value: T) => void;
   forEach: (
     traversal: 'inOrder' | 'preOrder' | 'postOrder',
     callback: (value: T) => void
@@ -93,20 +93,16 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     traverse(root as NodeType<T>, traversal, callback);
   };
 
-  // search TODO BRAIN NOT FOUND
   const depthFirstSearch = (
     value: T,
     rootNode = root as NodeType<T>
   ): T | undefined => {
     if (rootNode === null) return undefined;
-    if (value < (rootNode.value as NodeType<T>))
-      depthFirstSearch(value, rootNode.left as NodeType<T>);
-    if (value > (rootNode.value as NodeType<T>))
-      depthFirstSearch(value, rootNode.right as NodeType<T>);
-    if (rootNode.value === value) {
-      console.log(rootNode.value);
-      return rootNode.value;
-    }
+    if (value === rootNode.value) return rootNode.value;
+    if (value < rootNode.value)
+      return depthFirstSearch(value, rootNode.left as NodeType<T>);
+    if (value > rootNode.value)
+      return depthFirstSearch(value, rootNode.right as NodeType<T>);
   };
 
   const breathFirstSearch = (value: T): T | undefined => {
@@ -118,14 +114,91 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     direction: 'depth' | 'breath' = 'depth'
   ): T | undefined => {
     if (root === null) return undefined;
-    const x = depthFirstSearch(value);
-    // if (direction) return depthFirstSearch(value);
-    console.log('x', x);
-    // return breathFirstSearch(value);
+    if (direction === 'depth') return depthFirstSearch(value);
+    return breathFirstSearch(value);
   };
 
-  const remove = (value: T): T | undefined => {
-    return undefined;
+  const nextMinValue = (rootNode: NodeType<T>): T | undefined => {
+    if (rootNode === null) return undefined;
+    if (rootNode.left === null) return rootNode.value;
+    return nextMinValue(rootNode.left);
+  };
+
+  const removeNodeLoop = (value: T): T | null => {
+    if (root === null) return null;
+
+    let pointer: NodeType<T> | null = root;
+    let prev: NodeType<T> | null = null;
+
+    while (pointer) {
+      if (value < pointer.value) {
+        prev = pointer;
+        pointer = pointer.left as NodeType<T>;
+      }
+      if (value > pointer.value) {
+        prev = pointer;
+        pointer = pointer.right as NodeType<T>;
+      }
+      if (value === pointer.value) {
+        // case => leaf
+        if (pointer.left === null && pointer.right === null) {
+          prev!.left = null;
+          prev!.right = null;
+        }
+        // case 1 child left
+        if (pointer.right === null && pointer.left !== null) {
+          prev!.left = pointer.left;
+        }
+        // case 1 child right
+        if (pointer.left === null && pointer.right !== null) {
+          prev!.right = pointer.right;
+        }
+        // case left and right child
+        if (pointer.left !== null && pointer.right !== null) {
+          // find next min value
+          // Replace.
+          // Remove the min value
+        }
+        return pointer.value;
+      }
+    }
+  };
+
+  const removeNode = (
+    value: T,
+    rootNode: NodeType<T> | null
+  ): NodeType<T> | null => {
+    if (rootNode === null) return null;
+    if (value < rootNode.value) {
+      rootNode.left = removeNode(value, rootNode.left as NodeType<T>);
+    }
+    if (value > rootNode.value)
+      rootNode.right = removeNode(value, rootNode.right as NodeType<T>);
+    if (value === rootNode.value) {
+      if (rootNode.left === null && rootNode.right === null) {
+        rootNode = null;
+        return rootNode;
+      }
+      if (rootNode.left === null) {
+        rootNode = rootNode.right;
+        return rootNode;
+      }
+      if (rootNode.right === null) {
+        rootNode = rootNode.left;
+        return rootNode;
+      }
+      if (rootNode.left !== null && rootNode.right !== null) {
+        const nextMin = nextMinValue(rootNode.right);
+        rootNode.value = nextMin as T;
+        rootNode.right = removeNode(nextMin as T, rootNode.right);
+      }
+    }
+    return rootNode;
+  };
+
+  const remove = (value: T): void => {
+    removeNodeLoop(value);
+    // removeNode(value, root);
   };
 
   const balance = () => {};
