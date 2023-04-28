@@ -155,9 +155,24 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
         }
         // case left and right child
         if (pointer.left !== null && pointer.right !== null) {
-          // find next min value
-          // Replace.
-          // Remove the min value
+          let successorPrev = pointer;
+          let successor = pointer.right;
+          while (successor.left !== null) {
+            successorPrev = successor;
+            successor = successor.left;
+          }
+          pointer.value = successor.value;
+          console.log(successorPrev);
+
+          if (successorPrev.left === successor) {
+            console.log('1');
+
+            successorPrev.left = null;
+          } else {
+            console.log('2');
+
+            successorPrev.right = null;
+          }
         }
         return pointer.value;
       }

@@ -48,6 +48,33 @@ describe('Binary Search Tree', () => {
     bst.forEach('inOrder', (v) => currentBts.push(v));
     console.log(currentBts);
 
-    expect(currentBts).toEqual([1, 3, 5, 9, 12, 13, 17, 19]);
+    expect(currentBts).toEqual([1, 3, 5, 7, 9, 12, 13, 17, 19]);
+  });
+
+  test.only('delete x element from bst', () => {
+    const bst = BinarySearchTree<number>();
+    bst.insert(18); // 5 15
+    bst.insert(11); // 3 7
+    bst.insert(8); // 1
+    bst.insert(15); // leaf
+    bst.insert(7); // 9
+    bst.insert(10); // leaf
+    bst.insert(12); // 13 17
+    bst.insert(16); // leaf
+    bst.insert(25); // 19
+    bst.insert(30); // leaf
+    bst.insert(36); // leaf
+
+    let currentBts: number[] = [];
+    bst.forEach('inOrder', (v) => currentBts.push(v));
+    expect(currentBts).toEqual([7, 8, 10, 11, 12, 15, 16, 18, 25, 30, 36]);
+
+    // case 1 => delete leaf
+    const x = bst.remove(18);
+    currentBts = [];
+    bst.forEach('inOrder', (v) => currentBts.push(v));
+    console.log(currentBts);
+
+    expect(currentBts).toEqual([7, 8, 10, 11, 12, 15, 16, 25, 30, 36]);
   });
 });
