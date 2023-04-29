@@ -25,33 +25,7 @@ describe('Binary Search Tree', () => {
     expect(bst.search(100, 'depth')).toBe(undefined);
   });
 
-  test('delete element from bst', () => {
-    const bst = BinarySearchTree<number>();
-    bst.insert(12); // 5 15
-    bst.insert(5); // 3 7
-    bst.insert(3); // 1
-    bst.insert(1); // leaf
-    bst.insert(7); // 9
-    bst.insert(9); // leaf
-    bst.insert(15); // 13 17
-    bst.insert(13); // leaf
-    bst.insert(17); // 19
-    bst.insert(19); // leaf
-
-    let currentBts: number[] = [];
-    bst.forEach('inOrder', (v) => currentBts.push(v));
-    expect(currentBts).toEqual([1, 3, 5, 7, 9, 12, 13, 15, 17, 19]);
-
-    // case 1 => delete leaf
-    const x = bst.remove(15);
-    currentBts = [];
-    bst.forEach('inOrder', (v) => currentBts.push(v));
-    console.log(currentBts);
-
-    expect(currentBts).toEqual([1, 3, 5, 7, 9, 12, 13, 17, 19]);
-  });
-
-  test.only('delete x element from bst', () => {
+  test('delete x element from bst', () => {
     const bst = BinarySearchTree<number>();
     bst.insert(18); // 5 15
     bst.insert(11); // 3 7
@@ -64,17 +38,36 @@ describe('Binary Search Tree', () => {
     bst.insert(25); // 19
     bst.insert(30); // leaf
     bst.insert(36); // leaf
+    bst.insert(1); // leaf
 
     let currentBts: number[] = [];
     bst.forEach('inOrder', (v) => currentBts.push(v));
-    expect(currentBts).toEqual([7, 8, 10, 11, 12, 15, 16, 18, 25, 30, 36]);
+    expect(currentBts).toEqual([1, 7, 8, 10, 11, 12, 15, 16, 18, 25, 30, 36]);
 
     // case 1 => delete leaf
     const x = bst.remove(18);
+    // expect(x).toBe(undefined);
     currentBts = [];
     bst.forEach('inOrder', (v) => currentBts.push(v));
     console.log(currentBts);
 
-    expect(currentBts).toEqual([7, 8, 10, 11, 12, 15, 16, 25, 30, 36]);
+    expect(currentBts).toEqual([1, 7, 8, 10, 11, 12, 15, 16, 25, 30, 36]);
+  });
+
+  test('x', () => {
+    const bst = BinarySearchTree<number>();
+    bst.insert(18); // 5 15
+    let currentBts: number[] = [];
+    bst.forEach('inOrder', (v) => currentBts.push(v));
+    expect(currentBts).toEqual([18]);
+
+    // case 1 => delete leaf
+    const x = bst.remove(18);
+    // expect(x).toBe(undefined);
+    currentBts = [];
+    bst.forEach('inOrder', (v) => currentBts.push(v));
+    console.log(currentBts);
+
+    expect(currentBts).toEqual([]);
   });
 });

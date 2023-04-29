@@ -124,59 +124,61 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     return nextMinValue(rootNode.left);
   };
 
-  const removeNodeLoop = (value: T): T | null => {
-    if (root === null) return null;
-
+  const removeNodeLoop = (value: T): NodeType<T> | undefined => {
     let pointer: NodeType<T> | null = root;
-    let prev: NodeType<T> | null = null;
-
-    while (pointer) {
-      if (value < pointer.value) {
-        prev = pointer;
-        pointer = pointer.left as NodeType<T>;
-      }
-      if (value > pointer.value) {
-        prev = pointer;
-        pointer = pointer.right as NodeType<T>;
-      }
-      if (value === pointer.value) {
-        // case => leaf
-        if (pointer.left === null && pointer.right === null) {
-          prev!.left = null;
-          prev!.right = null;
-        }
-        // case 1 child left
-        if (pointer.right === null && pointer.left !== null) {
-          prev!.left = pointer.left;
-        }
-        // case 1 child right
-        if (pointer.left === null && pointer.right !== null) {
-          prev!.right = pointer.right;
-        }
-        // case left and right child
-        if (pointer.left !== null && pointer.right !== null) {
-          let successorPrev = pointer;
-          let successor = pointer.right;
-          while (successor.left !== null) {
-            successorPrev = successor;
-            successor = successor.left;
-          }
-          pointer.value = successor.value;
-          console.log(successorPrev);
-
-          if (successorPrev.left === successor) {
-            console.log('1');
-
-            successorPrev.left = null;
-          } else {
-            console.log('2');
-
-            successorPrev.right = null;
-          }
-        }
-        return pointer.value;
-      }
+    let parent: NodeType<T> | null = null;
+    // search for value down the tree
+    while (pointer !== null && pointer.value !== value) {
+      parent = pointer;
+      pointer = value < pointer.value ? pointer.left : pointer.right;
     }
+    // value not found
+    if (pointer === null) return undefined;
+    // value found
+    // case 1 => node doesn't have child elements
+    if (pointer.left === null && pointer.right === null) {
+      // Spacial case value is root node and only node in BST
+      if (root === pointer) {
+        root = null;
+        return;
+      }
+
+      if (parent?.left === pointer) parent.left = pointer.left;
+      else parent!.right = pointer.right;
+      pointer = null;
+    }
+    // case 2 => node have 1 child element (left or right)
+    if (pointer?.left !== null && pointer?.right === null) {
+      if (parent?.left === pointer) parent.left = pointer.left;
+      else parent!.right = pointer.left;
+      pointer = null;
+    }
+    if (pointer?.left === null && pointer?.right !== null) {
+      if (parent?.right === pointer) parent.right = pointer.right;
+      else parent!.left = pointer.right;
+      pointer = null;
+    }
+    // case 3 => node have 2 child elements (left and right)
+    if (pointer?.left !== null && pointer?.right !== null) {
+      let successor = pointer?.right;
+      let successorParent = null;
+      // find minimum value in right subtree (successor)
+      while (successor?.left !== null) {
+        successorParent = successor;
+        successor = successor?.left;
+      }
+      // check if successorParent === pointer
+      if (successorParent !== null) {
+        // successor !== pointer => make left parent child = successor right child
+        successorParent!.left = successor?.right;
+      } else {
+        // successor === pointer => make pointer right child = successor right child
+        pointer!.right = successor?.right;
+      }
+      pointer!.value = successor?.value;
+      successor = null!;
+    }
+    return root ?? undefined;
   };
 
   const removeNode = (

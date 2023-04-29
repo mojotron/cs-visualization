@@ -329,3 +329,21 @@
 // sorted data [1,2,3,4] => balanced BST with AVL and Red/Black tree
 // BST pros => better than O(n), ordered and flexible size(memory)
 // BST cons => no O(1) operations
+//
+// Balance tree => AVL and Red Black Trees
+// automatically re balances itself so that we don't have edge cases where our
+// unbalanced tree turns into linear, unbalanced tree
+//
+// Heaps => Binary Heap (2 nodes)
+// every child belongs to parent node that has a greater priority or value
+// max heep => root node highest, min heap => root node smallest
+// can be used in any algo where is ordering important
+// commonly used in priority queues
+
+// Priority Queues
+// type of DS where each element has priority => elements with higher priority
+// are served before elements with lower
+
+// Trie
+// is specialized tree used in searching, in most cases it can outpreformed
+// BST, HT and most other DS.
