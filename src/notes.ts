@@ -347,3 +347,25 @@
 // Trie
 // is specialized tree used in searching, in most cases it can outpreformed
 // BST, HT and most other DS.
+
+// Graph
+// one of the most useful and most used DS in CS when it comes to modeling real
+// life. Graph is set of values that are related in pairwise fashion. Look like
+// a network. Each item is called node or vertex, nodes then are connected with
+// edges. Ideal for cases when there is need to connect things to other things
+// (network, roads, social, recommendation engines).
+// Types of graphs
+// 1. directer - useful for describing traffic flow, system in which movement is
+// not bi directional, from some nodes we can only go in one direction
+// 2. undirected graphs - bi directional, we can move back and forth between 2
+// nodes
+// => nodes can carry any type of information, but with graphs you can have
+// information in the edges
+// 3. unweighted -
+// 4. weighted - calculating shortest or optimal path
+// 5. cyclic - vertices connected in a circular fashion
+// 6. acyclic
+// Methods to represent graphs
+// Edge List
+// Adjacent List
+// Adjacent matrix
