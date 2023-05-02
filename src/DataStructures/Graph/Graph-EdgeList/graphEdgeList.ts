@@ -1,40 +1,112 @@
-import HashTable from '../../HashTable/hashTable';
+/* eslint-disable no-restricted-syntax */
+
+type VertexType<T> = {
+  id: string; // id used to map vertices in graph
+  value: T;
+};
 
 type GraphType<T> = {
-  addVertex: (value: T) => void;
-  addEdge: (vertexA: T, vertexB: T, weight: number | null) => void;
-  // removeVertex: () => void;
-  // removeEdge: () => void;
-  // incidentEdges: () => void;
-  // areAdjusted: () => void;
-  // origin: () => void;
-  // destination: () => void;
+  addVertex: (vertex: VertexType<T>) => void;
+  addEdge: (vertexA: string, vertexB: string) => void;
+  removeVertex: (vertexId: string) => undefined;
+  removeEdge: (vertexA: string, vertexB: string) => void;
+  connected: (vertexA: string, vertexB: string) => boolean;
+  connections: (vertexId: string) => void;
+  print: () => string[];
+  // vertex value methods
+  getVertexValue: (vertexId: string) => T | undefined;
+  setVertexValue: (vertexId: string, newValue: T) => void;
+  // traversal
 };
 
 function GraphEdgeList<T>(): GraphType<T> {
-  const vertexList = HashTable<T, T>(10); //
-  const edgeList = HashTable<T, { a: T; b: T; weight: null | number }>(10);
+  const vertexList: { [key: string]: T } = {};
+  const edgeList: { [key: string]: [string, string] } = {};
 
-  const addVertex = (value: T) => {
-    vertexList.set(value, value);
-    console.log(vertexList.values());
+  const addVertex = (vertex: VertexType<T>) => {
+    vertexList[vertex.id] = vertex.value;
   };
 
-  const addEdge = (
-    vertexA: T,
-    vertexB: T,
-    weight: number | null
-  ): undefined | true => {
-    // TODO check if vertexA and vertexB exist
+  const sortVertices = (...vertices: string[]) =>
+    [...vertices].sort((a, b) => a.localeCompare(b));
 
-    if (!vertexList.has(vertexA) || !vertexList.has(vertexB)) return undefined;
-    edgeList.set(vertexA, { a: vertexA, b: vertexB, weight });
-    console.log(edgeList.values());
+  const addEdge = (vertexA: string, vertexB: string) => {
+    if (!vertexList[vertexA] || !vertexList[vertexB])
+      throw new Error('Unknown vertex!');
+    // sort vertex for making unique has key for faster look up
+    const [vA, vB] = sortVertices(vertexA, vertexB);
+    // add pointers to vertexList index of values
+    edgeList[vA + vB] = [vA, vB];
+  };
+
+  const removeVertex = (vertexId: string) => {
+    // remove vertex and remove all edges connecting to that node
+    if (!vertexList[vertexId]) return undefined;
+    delete vertexList[vertexId]; // remove vertex
+    Object.values(edgeList).forEach((vertices) => {
+      // remove edges including vertexId
+      if (vertices.includes(vertexId)) {
+        delete edgeList[vertices.join('')];
+      }
+    });
+  };
+
+  const removeEdge = (vertexA: string, vertexB: string) => {
+    const [vA, vB] = sortVertices(vertexA, vertexB);
+    if (edgeList[vA + vB]) {
+      delete edgeList[vA + vB];
+    }
+  };
+
+  const connected = (vertexA: string, vertexB: string) => {
+    const [vA, vB] = sortVertices(vertexA, vertexB);
+    return edgeList[vA + vB] !== undefined;
+  };
+
+  const connections = (vertexId: string) => {
+    const nodes: string[] = []; // O(|e|)
+    for (const value of Object.values(edgeList)) {
+      const vA = value[0];
+      const vB = value[1];
+      if (vertexId === vA) nodes.push(vB);
+      if (vertexId === vB) nodes.push(vA);
+    }
+    return sortVertices(...nodes);
+  };
+
+  const print = () => {
+    return Object.keys(vertexList).map(
+      (v) => `${v} => (${connections(v).join(', ')})`
+    );
+  };
+
+  const getVertexValue = (vertexId: string): T | undefined => {
+    if (vertexList[vertexId]) {
+      const value = vertexList[vertexId];
+      // NOTE! for objects and array return copy to stop potential data change
+      if (typeof value === 'object' && Array.isArray(value))
+        return [...value] as T;
+      if (typeof value === 'object') return { ...value };
+      return value;
+    }
+    return undefined;
+  };
+
+  const setVertexValue = (vertexId: string, newValue: T) => {
+    if (!vertexList[vertexId]) return;
+    vertexList[vertexId] = newValue;
   };
 
   return {
     addVertex,
     addEdge,
+    connected,
+    connections,
+    print,
+    removeVertex,
+    removeEdge,
+    getVertexValue,
+    setVertexValue,
   };
 }
 
