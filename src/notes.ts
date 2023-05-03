@@ -369,3 +369,40 @@
 // Edge List
 // Adjacent List
 // Adjacent matrix
+
+// Section 2 Algorithms
+// algorithms are steps ina process that we take to preform a desired action
+// with computers. Allow us to use language built in DS to preform actions on
+// that data. Certain algos allow us to simplify our big O complexity into
+// smaller or better time complexity.
+//
+// > Recursion Concept
+// - recursive function is a function that refers to itself
+// - really good for tasks that have repeated subtasks to do
+// - concept used in searching and sorting algos (traversing a tree)
+// -> stack overflow - occurs when there is no base case in recursion
+// function stackOverflow() {
+//  debugger; => stops execution in browser debug mode and you can inspect call stack
+//  stackOverflow()
+// }
+// potential problem with recursion => computer needs to allocate memory to
+// remember things
+// every recursion function must have a base case => stop calling function
+// and recursive case => call function again and run it
+// Note: anything done with recursion can be done iteratively! Good programmer
+// should look pros and cons for each solution. Recursive approach is sometimes
+// much easier to write. Recursive algos are DRY much more readable, but use
+// more memory (large stack).
+// => Tail Call Optimization => allows recursion to be called without increasing
+// the call stack (ES6)
+// Use recursion for traversing or searching trees and graphs BFS and DFS.
+// Every time you are using tree or converting something into tree => recursion.
+// Divide and Conquer => recursion
+// - divide into a number of subproblem that are smaller instances of the same problem
+// - each instance of the subproblem is identical in nature
+// - the solution of each subproblem can be combined to solve the problem at hand
+//
+// Sorting
+// - not a big deal with small input data. Crucial for large sets of data.
+// Sorting and searching are two of the biggest cs problems in the software world.
+//
