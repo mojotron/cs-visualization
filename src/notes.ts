@@ -345,7 +345,7 @@
 // are served before elements with lower
 
 // Trie
-// is specialized tree used in searching, in most cases it can outpreformed
+// is specialized tree used in searching, in most cases it can outperformed
 // BST, HT and most other DS.
 
 // Graph
