@@ -405,4 +405,33 @@
 // Sorting
 // - not a big deal with small input data. Crucial for large sets of data.
 // Sorting and searching are two of the biggest cs problems in the software world.
-//
+// Bubble, selection, insertion => O(n^2)
+// insertion is fastest for nearly sorted data
+// > O(n log n)
+// merge and quick sort => divide and conquer technique with recursion space O(n)
+//                  /65318724\
+//                 /6531  8724\
+//               /65 31    87 24\
+//             |6 5 3 1    8 7 2 4|
+//               \56 13    78 24/
+//                 \1356  2478/
+//                  \12345678/
+// log n => kind height of tree
+// A sorting algorithm is said to be stable if two objects with equal keys
+// appear in the same order in sorted output as they appear in the input array
+// to be sorted. Some sorting algorithms are stable by nature like Insertion
+// sort, Merge Sort, Bubble Sort, etc. And some sorting algorithms are not,
+// like Heap Sort, Quick Sort, etc.
+// Now to answer your question, suppose we have a list of first and last names.
+// We are asked to sort "by last name, then by first". We could first sort
+// (stable or unstable) by the first name, then stable sort by the last name.
+// After these sorts, the list is primarily sorted by the last name. However,
+// where last names are the same, the first names are sorted.
+// Picking sorting algo:
+// - insertion -> small data set or items are mostly sorted
+// - bubble and selection -> never, used for educational purpose
+// - merge -> if you worried about worst case scenarios, but memory expensive
+// - quick -> better then merge sort on average time and space complexity, if
+// we don't pick the pivot properly we have O(n^2) sorting
+// - heap - O(1) space complexity => use it when you arw worried with worst
+// case time and space
