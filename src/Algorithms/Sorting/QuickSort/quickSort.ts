@@ -4,12 +4,12 @@
 // example
 // [7, 2, 1, 6, 8, 5, 3, 4]
 // [2, 1, 3]  [4]  [8, 5, 7, 6]
-// after partition two new sub-problems (lesset and grater) =>
+// after partition two new sub-problems (lesser and grater) =>
 // divide and conquer recursive
 // base case =>
 // recursive case =>
 // to keep space complexity O(1) => sort in place, not making arr copyes
-// we use arr referece and swop elements in original array
+// we use arr reference and swop elements in original array
 
 // helpers
 const swap = <T>(arrRef: T[], startIndex: number, endIndex: number) => {
