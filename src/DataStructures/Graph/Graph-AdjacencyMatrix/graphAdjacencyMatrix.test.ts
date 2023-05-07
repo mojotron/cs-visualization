@@ -3,7 +3,7 @@ import GraphAdjacencyMatrix from './graphAdjacencyMatrix';
 
 describe('Graph implementation using Adjacency Matrix method', () => {
   test.only('create vertex add vertex and add edges', () => {
-    const graph = GraphAdjacencyMatrix<number>();
+    const graph = GraphAdjacencyMatrix<number>(4);
     // A - D
     // | \
     // |  C
@@ -13,6 +13,10 @@ describe('Graph implementation using Adjacency Matrix method', () => {
     graph.addVertex({ id: 'B', value: 2 });
     graph.addVertex({ id: 'C', value: 3 });
     graph.addVertex({ id: 'D', value: 4 });
+
+    const maxLimit = graph.addVertex({ id: 'E', value: 5 });
+    expect(maxLimit).toBe(undefined);
+
     graph.addEdge('A', 'B');
     graph.addEdge('B', 'C');
     graph.addEdge('C', 'A');
@@ -26,7 +30,7 @@ describe('Graph implementation using Adjacency Matrix method', () => {
   });
 
   test('connections', () => {
-    const graph = GraphEdgeList<number>();
+    const graph = GraphAdjacencyMatrix<number>();
     graph.addVertex({ id: 'A', value: 1 });
     graph.addVertex({ id: 'B', value: 2 });
     graph.addVertex({ id: 'C', value: 3 });
@@ -45,21 +49,21 @@ describe('Graph implementation using Adjacency Matrix method', () => {
   });
 
   test('get and set vertex value', () => {
-    const graph1 = GraphEdgeList<number>();
+    const graph1 = GraphAdjacencyMatrix<number>();
     graph1.addVertex({ id: 'A', value: 10 });
     expect(graph1.getVertexValue('B')).toBe(undefined);
     expect(graph1.getVertexValue('A')).toBe(10);
     graph1.setVertexValue('A', 20);
     expect(graph1.getVertexValue('A')).toBe(20);
 
-    const graph2 = GraphEdgeList<string[]>();
+    const graph2 = GraphAdjacencyMatrix<string[]>();
     graph2.addVertex({ id: 'A', value: ['A', 'B', 'C'] });
     expect(graph2.getVertexValue('A')).toEqual(['A', 'B', 'C']);
     const temp = graph2.getVertexValue('A') as string[];
     graph2.setVertexValue('A', [...temp, 'D']);
     expect(graph2.getVertexValue('A')).toEqual(['A', 'B', 'C', 'D']);
 
-    const graph3 = GraphEdgeList<{ name: string; id: number }>();
+    const graph3 = GraphAdjacencyMatrix<{ name: string; id: number }>();
     graph3.addVertex({ id: 'A', value: { name: 'Tom', id: 1 } });
     expect(graph3.getVertexValue('A')).toEqual({ name: 'Tom', id: 1 });
     const temp2 = graph3.getVertexValue('A') as { id: number; name: string };
@@ -68,7 +72,7 @@ describe('Graph implementation using Adjacency Matrix method', () => {
   });
 
   test('remove edge and vertices', () => {
-    const graph = GraphEdgeList<number>();
+    const graph = GraphAdjacencyMatrix<number>();
     graph.addVertex({ id: 'A', value: 1 });
     graph.addVertex({ id: 'B', value: 2 });
     graph.addVertex({ id: 'C', value: 3 });
