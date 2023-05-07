@@ -435,3 +435,16 @@
 // we don't pick the pivot properly we have O(n^2) sorting
 // - heap - O(1) space complexity => use it when you arw worried with worst
 // case time and space
+//
+// Comparison Sort (need to compare every element to each other)
+// bubble, insertion, selection, merge, quick
+//
+// Non-Comparison Sort
+// counting, radix
+// - different way to think about sorting. With comparison sort, we decided the
+// order of the elements based on asking the question => is element a bigger
+// element b = keep doing that until compare all elements.
+// Non comparison sorting => elements are stored on computers in zeros and ones
+// and take advantage of that => only works with numbers - integers in restricted
+// range
+// comparison sorting is universal

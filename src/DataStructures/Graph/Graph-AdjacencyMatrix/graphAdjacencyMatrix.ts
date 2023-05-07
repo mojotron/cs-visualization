@@ -1,6 +1,8 @@
 import { VertexType, GraphType } from '../graphTypes';
 
 function GraphAdjacencyMatrix<T>(): GraphType<T> {
+  const vertexList: { [key: string]: T } = {};
+
   const addVertex = (vertex: VertexType<T>) => {};
 
   const addEdge = (vertexA: string, vertexB: string) => {};
