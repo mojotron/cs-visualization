@@ -2,7 +2,7 @@ import { describe, test, expect } from 'vitest';
 import GraphAdjacencyMatrix from './graphAdjacencyMatrix';
 
 describe('Graph implementation using Adjacency Matrix method', () => {
-  test.only('create vertex add vertex and add edges', () => {
+  test('create vertex add vertex and add edges', () => {
     const graph = GraphAdjacencyMatrix<number>(4);
     // A - D
     // | \
