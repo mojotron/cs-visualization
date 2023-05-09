@@ -23,6 +23,8 @@ type BinarySearchTreeType<T> = {
     callback: (value: T) => void
   ) => void;
   balance: () => void;
+  // temp
+  breathFirstTraversal: () => T[];
 };
 
 function BinarySearchTree<T>(): BinarySearchTreeType<T> {
@@ -74,6 +76,7 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
 
   // traversal
   const traverse = (
+    // DFS
     rootNode: NodeType<T>,
     traversal: 'inOrder' | 'preOrder' | 'postOrder',
     callback: (value: T) => void
@@ -84,6 +87,26 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     if (traversal === 'inOrder') callback(rootNode.value);
     traverse(rootNode.right as NodeType<T>, traversal, callback);
     if (traversal === 'postOrder') callback(rootNode.value);
+  };
+
+  const breathFirstTraversal = () => {
+    let pointer = root;
+    const visited = [];
+    const queue = [];
+    queue.push(pointer);
+    while (queue.length > 0) {
+      pointer = queue.shift() as NodeType<T>;
+      visited.push(pointer.value);
+      if (pointer.left) queue.push(pointer.left);
+      if (pointer.right) queue.push(pointer.right);
+    }
+    return visited;
+  };
+
+  const breathFirstTraversalRecursive = (rootNode: NodeType<T>) => {};
+
+  const breathFirstRecursive = () => {
+    return breathFirstTraversalRecursive(root);
   };
 
   const forEach = (
@@ -226,6 +249,8 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     remove,
     forEach,
     balance,
+    // temp
+    breathFirstTraversal,
   };
 }
 

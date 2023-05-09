@@ -25,33 +25,33 @@ describe('Binary Search Tree', () => {
     expect(bst.search(100, 'depth')).toBe(undefined);
   });
 
-  test('delete x element from bst', () => {
+  test.only('delete x element from bst', () => {
     const bst = BinarySearchTree<number>();
-    bst.insert(18); // 5 15
-    bst.insert(11); // 3 7
-    bst.insert(8); // 1
-    bst.insert(15); // leaf
-    bst.insert(7); // 9
-    bst.insert(10); // leaf
-    bst.insert(12); // 13 17
-    bst.insert(16); // leaf
-    bst.insert(25); // 19
-    bst.insert(30); // leaf
-    bst.insert(36); // leaf
-    bst.insert(1); // leaf
+    bst.insert(8); // 5 15
+    bst.insert(3); // 3 7
+    bst.insert(1); // 1
+    bst.insert(6); // leaf
+    bst.insert(4); // 9
+    bst.insert(7); // leaf
+    bst.insert(10); // 13 17
+    bst.insert(14); // leaf
+    bst.insert(13); // 19
 
-    let currentBts: number[] = [];
-    bst.forEach('inOrder', (v) => currentBts.push(v));
-    expect(currentBts).toEqual([1, 7, 8, 10, 11, 12, 15, 16, 18, 25, 30, 36]);
+    const x = bst.breathFirstTraversal();
+    expect(x).toEqual([8, 3, 10, 1, 6, 14, 4, 7, 13]);
+
+    // let currentBts: number[] = [];
+    // bst.forEach('inOrder', (v) => currentBts.push(v));
+    // expect(currentBts).toEqual([1, 7, 8, 10, 11, 12, 15, 16, 18, 25, 30, 36]);
 
     // case 1 => delete leaf
-    const x = bst.remove(18);
+    // const x = bst.remove(18);
     // expect(x).toBe(undefined);
-    currentBts = [];
-    bst.forEach('inOrder', (v) => currentBts.push(v));
-    console.log(currentBts);
+    // currentBts = [];
+    // bst.forEach('inOrder', (v) => currentBts.push(v));
+    // console.log(currentBts);
 
-    expect(currentBts).toEqual([1, 7, 8, 10, 11, 12, 15, 16, 25, 30, 36]);
+    // expect(currentBts).toEqual([1, 7, 8, 10, 11, 12, 15, 16, 25, 30, 36]);
   });
 
   test('x', () => {

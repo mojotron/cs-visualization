@@ -1,30 +1,42 @@
-type VertexType<T> = {
-  value: T;
-  edges: T[];
-};
+import { VertexType, GraphType } from '../graphTypes';
 
-function Vertex(): VertexType {}
+function GraphAdjacentList<T>(): GraphType<T> {
+  const addVertex = (vertex: VertexType<T>) => {};
 
-type GraphType = {
-  addVertex: () => void;
-  addEdge: () => void;
-  removeVertex: () => void;
-  removeEdge: () => void;
-  verticesConnected: () => void;
-};
+  const addEdge = (vertexA: string, vertexB: string) => {};
 
-function GraphAdjacentList(): GraphType {
-  const addVertex = () => {};
-  const addEdge = () => {};
-  const removeVertex = () => {};
-  const removeEdge = () => {};
-  const verticesConnected = () => {};
+  const connected = (vertexA: string, vertexB: string): boolean => {
+    return true;
+  };
+
+  const connections = (vertexId: string) => {};
+
+  const removeEdge = (vertexA: string, vertexB: string) => {};
+
+  const removeVertex = (vertexId: string) => {
+    return undefined;
+  };
+
+  const print = () => {
+    return [''];
+  };
+
+  const getVertexValue = (vertexId: string): T | undefined => {
+    return undefined;
+  };
+
+  const setVertexValue = (vertexId: string, newValue: T) => {};
+
   return {
     addVertex,
     addEdge,
+    connected,
+    connections,
+    print,
     removeVertex,
     removeEdge,
-    verticesConnected,
+    getVertexValue,
+    setVertexValue,
   };
 }
 

@@ -448,3 +448,19 @@
 // and take advantage of that => only works with numbers - integers in restricted
 // range
 // comparison sorting is universal
+//
+// Searching
+// > Linear search - method of finding a target value within a list. Sequentially
+// checks each element of the list for the target value until match is found or
+// until all the elements have been searched. Best case O(1) first item, worst
+// case O(n) last item.
+// > Binary Search (for SORTED list) - saving items in tree structure gives
+// better search performance => every step we discard half of the items going
+// left or right => O(log n)
+// > Graph + Tree Traversal
+// - Breadth First Search and Depth First Search => O(n)
+// - when traversing through a tree or a graph we are trying to do is walk through
+// without ever repeating ourselves -> order ot the thing matters when it comes
+// to DFS and DFS
+// BFS pros => shortest path, closer nodes => cons more memory
+// DFS pros => less memory, does path exists => cons can get slow
