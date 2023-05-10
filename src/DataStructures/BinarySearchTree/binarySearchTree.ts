@@ -25,6 +25,7 @@ type BinarySearchTreeType<T> = {
   balance: () => void;
   // temp
   breathFirstTraversal: () => T[];
+  breathFirstRecursive: () => T[];
 };
 
 function BinarySearchTree<T>(): BinarySearchTreeType<T> {
@@ -103,10 +104,20 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     return visited;
   };
 
-  const breathFirstTraversalRecursive = (rootNode: NodeType<T>) => {};
+  const breathFirstTraversalRecursive = (
+    queue: NodeType<T>[] = [],
+    visited: T[] = []
+  ): T[] => {
+    if (queue.length === 0) return visited;
+    const pointer = queue.shift() as NodeType<T>;
+    visited.push(pointer.value);
+    if (pointer.left) queue.push(pointer.left);
+    if (pointer.right) queue.push(pointer.right);
+    return breathFirstTraversalRecursive(queue, visited);
+  };
 
   const breathFirstRecursive = () => {
-    return breathFirstTraversalRecursive(root);
+    return breathFirstTraversalRecursive([root as NodeType<T>]);
   };
 
   const forEach = (
@@ -251,6 +262,7 @@ function BinarySearchTree<T>(): BinarySearchTreeType<T> {
     balance,
     // temp
     breathFirstTraversal,
+    breathFirstRecursive,
   };
 }
 

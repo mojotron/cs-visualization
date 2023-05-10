@@ -464,3 +464,7 @@
 // to DFS and DFS
 // BFS pros => shortest path, closer nodes => cons more memory
 // DFS pros => less memory, does path exists => cons can get slow
+// DFS can be implemented 3 ways => inorder, preorder, postorder Space => O(h) height of tree
+//    8       inorder: 3,8,10 => for sorting
+//   / \     preorder: 8,3,10 => for recreating tree
+//  3  10   postorder: 3,10,8

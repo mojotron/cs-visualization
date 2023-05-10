@@ -39,6 +39,8 @@ describe('Binary Search Tree', () => {
 
     const x = bst.breathFirstTraversal();
     expect(x).toEqual([8, 3, 10, 1, 6, 14, 4, 7, 13]);
+    const y = bst.breathFirstRecursive();
+    expect(y).toEqual([8, 3, 10, 1, 6, 14, 4, 7, 13]);
 
     // let currentBts: number[] = [];
     // bst.forEach('inOrder', (v) => currentBts.push(v));
