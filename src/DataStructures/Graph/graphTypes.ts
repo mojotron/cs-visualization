@@ -15,4 +15,6 @@ export type GraphType<T> = {
   getVertexValue: (vertexId: string) => T | undefined;
   setVertexValue: (vertexId: string, newValue: T) => void;
   // traversal
+  breadthFirstTraversal: (vertexId: string) => string[] | undefined;
+  depthFirstTraversal: (vertexId: string) => string[] | undefined;
 };

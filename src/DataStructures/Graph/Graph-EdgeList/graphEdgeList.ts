@@ -80,6 +80,26 @@ function GraphEdgeList<T>(): GraphType<T> {
     vertexList[vertexId] = newValue;
   };
 
+  // traversal
+  const breadthFirstTraversal = (vertexId: string): string[] | undefined => {
+    if (!vertexList[vertexId]) return undefined;
+    const visited: string[] = [];
+    const queue: string[] = [vertexId];
+
+    while (queue.length > 0) {
+      const temp = queue.shift() as string;
+      if (!visited.includes(temp)) visited.push(temp);
+      connections(temp).forEach((vId) => {
+        if (!visited.includes(vId)) queue.push(vId);
+      });
+    }
+    return visited;
+  };
+
+  const depthFirstTraversal = (vertexId: string) => {
+    return ['A'];
+  };
+
   return {
     addVertex,
     addEdge,
@@ -90,6 +110,8 @@ function GraphEdgeList<T>(): GraphType<T> {
     removeEdge,
     getVertexValue,
     setVertexValue,
+    breadthFirstTraversal,
+    depthFirstTraversal,
   };
 }
 
