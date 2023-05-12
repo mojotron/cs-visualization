@@ -114,5 +114,8 @@ describe('Graph implementation using edge list method', () => {
     expect(c).toEqual(['C', 'A', 'B', 'D']);
     const d = graph.breadthFirstTraversal('D');
     expect(d).toEqual(['D', 'A', 'B', 'C']);
+
+    const x = graph.depthFirstTraversal('A', []);
+    expect(x).toEqual(['A', 'B', 'C', 'D']);
   });
 });

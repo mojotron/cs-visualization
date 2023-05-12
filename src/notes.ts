@@ -468,3 +468,42 @@
 //    8       inorder: 3,8,10 => for sorting
 //   / \     preorder: 8,3,10 => for recreating tree
 //  3  10   postorder: 3,10,8
+// Shortest path in weighted graph
+// Dijkstra algorithm => more efficient
+// Bellman-Ford algorithm => negative weights O(n^2)
+//
+// Dynamic Programming
+// - optimization technique => Do you have something you can cache?
+// - at the high level => way to solve problems by breaking it down into a
+//   collection of sub problems => solving each of those problems just once,
+//   and storing their solutions in case next time the same sub problem occurs
+// - caching is a way to store values so you can use them later on (backpack),
+//   way for us to speed up programs and hold some piece of data in an easily
+//   accessible box.
+// - memoization - specific form of caching that involves caching the return
+//   value based on the parameters. Simply a way to remember a solution to a
+//   problem, so you don't have to calculate it again.
+// - dynamic programming => divide & conquer + memoization
+//   * can be divided into sub problems
+//   * recursive problem
+//   * are there repetitive sub problems
+//   * memoize sub problems
+//   * demand a raise from your boss
+//
+// example:
+// const addTo10 = () => {
+//   const cache: { [key: number]: number } = {};
+
+//   return (n: number) => {
+//     if (cache[n]) return cache[n];
+
+//     console.log('Caching....');
+//     cache[n] = 10 + n;
+//     console.log('Caching done!');
+//     return cache[n];
+//   };
+// };
+
+// const memoized = addTo10();
+// console.log(memoized(5));
+// console.log(memoized(5));

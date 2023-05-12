@@ -16,5 +16,11 @@ export type GraphType<T> = {
   setVertexValue: (vertexId: string, newValue: T) => void;
   // traversal
   breadthFirstTraversal: (vertexId: string) => string[] | undefined;
-  depthFirstTraversal: (vertexId: string) => string[] | undefined;
+  depthFirstTraversal: (
+    vertexId: string,
+    visited: string[]
+  ) => string[] | undefined;
+  // shortest-path => weighted graph
+  // dijkstra: () => void;
+  // bellmanFord: () => void;
 };

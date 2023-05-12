@@ -96,8 +96,16 @@ function GraphEdgeList<T>(): GraphType<T> {
     return visited;
   };
 
-  const depthFirstTraversal = (vertexId: string) => {
-    return ['A'];
+  const depthFirstTraversal = (vertexId: string, visited: string[] = []) => {
+    if (!vertexList[vertexId]) return undefined;
+    if (!visited.includes(vertexId)) visited.push(vertexId);
+    const connectedQueue = connections(vertexId);
+
+    while (connectedQueue.length > 0) {
+      const temp = connectedQueue.shift() as string;
+      if (!visited.includes(temp)) depthFirstTraversal(temp, visited);
+    }
+    return visited;
   };
 
   return {
