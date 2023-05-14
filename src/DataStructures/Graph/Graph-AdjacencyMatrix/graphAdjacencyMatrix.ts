@@ -96,6 +96,34 @@ function GraphAdjacencyMatrix<T>(size = 10): GraphType<T> {
       vertexList[vertexId].value = newValue;
     }
   };
+  // TODO same for all graphs => make composition for BFS and DFS
+  const breadthFirstTraversal = (vertexId: string) => {
+    if (!idList.includes(vertexId)) return undefined;
+    const visited: string[] = [];
+    const queue: string[] = [vertexId];
+
+    while (queue.length > 0) {
+      const temp = queue.shift() as string;
+      if (!visited.includes(temp)) visited.push(temp);
+      connections(temp)?.forEach((id) => {
+        if (!visited.includes(id as string)) queue.push(id as string);
+      });
+    }
+    return visited;
+  };
+
+  const depthFirstTraversal = (vertexId: string, visited: string[]) => {
+    if (!idList.includes(vertexId)) return undefined;
+    if (!visited.includes(vertexId)) visited.push(vertexId);
+    const connectedQueue = connections(vertexId) as string[];
+
+    while (connectedQueue.length > 0) {
+      const temp = connectedQueue.shift() as string;
+      if (!visited.includes(temp)) depthFirstTraversal(temp, visited);
+    }
+
+    return visited;
+  };
 
   return {
     addVertex,
@@ -107,6 +135,8 @@ function GraphAdjacencyMatrix<T>(size = 10): GraphType<T> {
     removeEdge,
     getVertexValue,
     setVertexValue,
+    breadthFirstTraversal,
+    depthFirstTraversal,
   };
 }
 

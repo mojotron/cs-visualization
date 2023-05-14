@@ -97,4 +97,29 @@ describe('Graph implementation using Adjacency Matrix method', () => {
     graph.removeVertex('A');
     expect(graph.print()).toEqual(['B => (C)', 'C => (B)', 'D => ()']);
   });
+
+  test('traversal', () => {
+    //
+    const graph = GraphAdjacencyMatrix<number>();
+    graph.addVertex({ id: 'A', value: 1 });
+    graph.addVertex({ id: 'B', value: 2 });
+    graph.addVertex({ id: 'C', value: 3 });
+    graph.addVertex({ id: 'D', value: 4 });
+    graph.addEdge('A', 'B');
+    graph.addEdge('B', 'C');
+    graph.addEdge('C', 'A');
+    graph.addEdge('D', 'A');
+
+    const a = graph.breadthFirstTraversal('A');
+    expect(a).toEqual(['A', 'B', 'C', 'D']);
+    const b = graph.breadthFirstTraversal('B');
+    expect(b).toEqual(['B', 'A', 'C', 'D']);
+    const c = graph.breadthFirstTraversal('C');
+    expect(c).toEqual(['C', 'A', 'B', 'D']);
+    const d = graph.breadthFirstTraversal('D');
+    expect(d).toEqual(['D', 'A', 'B', 'C']);
+
+    const x = graph.depthFirstTraversal('A', []);
+    expect(x).toEqual(['A', 'B', 'C', 'D']);
+  });
 });

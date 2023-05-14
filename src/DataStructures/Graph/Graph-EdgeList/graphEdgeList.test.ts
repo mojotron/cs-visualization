@@ -94,7 +94,7 @@ describe('Graph implementation using edge list method', () => {
     expect(graph.print()).toEqual(['B => (C)', 'C => (B)', 'D => ()']);
   });
 
-  test('breadth First Traversal', () => {
+  test('traversal', () => {
     //
     const graph = GraphEdgeList<number>();
     graph.addVertex({ id: 'A', value: 1 });
