@@ -1,26 +1,126 @@
 import { LinkedList, SingleNode } from '../types';
 
+const Node = <T>(value: T): SingleNode<T> => {
+  return {
+    value,
+    next: null,
+  };
+};
+
 const CircularSinglyLinkedList = <T>(): LinkedList<T> => {
   let size = 0;
-  const head: null | SingleNode<T> = null;
-  const tail: null | SingleNode<T> = null;
+  let head: null | SingleNode<T> = null;
+  let tail: null | SingleNode<T> = null;
 
-  const append = () => {};
-  const prepend = () => {};
-  const insert = () => {};
-  const pop = () => {};
-  const shift = () => {};
-  const deleteAt = () => {};
-  const forEach = () => {};
+  const forEach = (callback: (value: T, index: number) => void) => {
+    let pointer = head;
+    let position = 0;
+    while (position < size) {
+      callback(pointer!.value, position);
+      pointer = pointer!.next;
+      position += 1;
+    }
+  };
+
+  // add node
+  const addFirstNode = (value: T) => {
+    const newNode = Node(value);
+    head = newNode;
+    tail = head;
+    tail.next = head;
+    size += 1;
+    return size;
+  };
+
+  const append = (value: T): number => {
+    if (size === 0 && head === null && tail === null)
+      return addFirstNode(value);
+    const newNode = Node(value);
+    newNode.next = head;
+    tail!.next = newNode;
+    tail = newNode;
+    size += 1;
+
+    return size;
+  };
+
+  const prepend = (value: T) => {
+    if (size === 0 && head === null && tail === null)
+      return addFirstNode(value);
+    const newNode = Node(value);
+    newNode.next = head;
+    tail!.next = newNode;
+    head = newNode;
+    size += 1;
+    return size;
+  };
+
+  const insert = (index: number, value: T) => {
+    if (index < 0 || index > size) return undefined;
+    if (index === 0) return prepend(value);
+    if (index === size) return append(value);
+
+    let pointer = head;
+    let position = 0;
+    while (position < index - 1) {
+      pointer = pointer!.next;
+      position += 1;
+    }
+    const shift = pointer!.next;
+    const newNode = Node(value);
+    newNode.next = shift;
+    pointer!.next = newNode;
+    size += 1;
+    return size;
+  };
+  // remove node
+  const pop = () => {
+    return undefined;
+  };
+  const shift = () => {
+    return undefined;
+  };
+  const deleteAt = () => {
+    return undefined;
+  };
+
+  const print = () => {
+    const result: T[] = [];
+    forEach((value) => {
+      result.push(value);
+    });
+    let stringResult: string;
+    if (result.length > 0) {
+      stringResult = `${result.join(' -> ')} -> HEAD(${tail?.next?.value})`;
+    } else {
+      stringResult = 'empty';
+    }
+    return stringResult;
+  };
+
+  const search = (callback: (ele: T, index: number) => boolean) => {
+    return undefined;
+  };
+  const reverse = () => {
+    return null;
+  };
+  const reverseInPlace = () => {
+    return null;
+  };
+  const sort = () => {
+    return null;
+  };
 
   return {
     get length(): number {
       return size;
     },
     get head(): T | null {
+      if (head?.value) return head.value;
       return null;
     },
     get tail(): T | null {
+      if (tail?.value) return tail.value;
       return null;
     },
     append,
@@ -30,5 +130,12 @@ const CircularSinglyLinkedList = <T>(): LinkedList<T> => {
     shift,
     deleteAt,
     forEach,
+    print,
+    search,
+    reverse,
+    reverseInPlace,
+    sort,
   };
 };
+
+export default CircularSinglyLinkedList;

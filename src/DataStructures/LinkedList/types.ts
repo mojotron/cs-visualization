@@ -22,7 +22,7 @@ export type LinkedList<T> = {
   forEach: (callback: (value: T, index: number) => void) => void;
   print: () => void;
   search: (callback: (ele: T, index: number) => boolean) => T | undefined;
-  reverse: () => LinkedList<T>;
+  reverse: () => LinkedList<T> | null;
   reverseInPlace: () => void;
-  sort: () => LinkedList<T>;
+  sort: () => LinkedList<T> | null;
 };
