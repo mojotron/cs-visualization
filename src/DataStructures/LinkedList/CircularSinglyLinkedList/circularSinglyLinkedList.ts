@@ -74,14 +74,59 @@ const CircularSinglyLinkedList = <T>(): LinkedList<T> => {
     return size;
   };
   // remove node
+  const removeFirstItem = () => {
+    const { value } = head as SingleNode<T>;
+    head = null;
+    tail = null;
+    size = 0;
+    return value;
+  };
+
   const pop = () => {
-    return undefined;
+    if (size === 0 && head === null) return undefined;
+    if (size === 1 && head?.value === tail?.value) return removeFirstItem();
+
+    let position = 0;
+    let parent = head;
+    let pointer = head;
+
+    while (position < size - 1) {
+      parent = pointer;
+      pointer = pointer!.next;
+      position += 1;
+    }
+
+    tail = parent;
+    tail!.next = head;
+    size -= 1;
+    return pointer!.value;
   };
+
   const shift = () => {
-    return undefined;
+    if (size === 0 && head === null) return undefined;
+    if (size === 1 && head?.value === tail?.value) return removeFirstItem();
+    const { value } = head as SingleNode<T>;
+    const newHead = head!.next;
+    head = newHead;
+    tail!.next = head;
+    size -= 1;
+    return value;
   };
-  const deleteAt = () => {
-    return undefined;
+
+  const deleteAt = (index: number) => {
+    if (index < 0 || index > size - 1) return undefined;
+    if (index === 0) return shift();
+    if (index === size - 1) return pop();
+
+    let pointer = head;
+    for (let i = 0; i < index - 1; i += 1) {
+      pointer = pointer?.next as SingleNode<T>;
+    }
+
+    const deletedNode = pointer?.next;
+    pointer!.next = deletedNode!.next;
+    size -= 1;
+    return deletedNode?.value;
   };
 
   const print = () => {
