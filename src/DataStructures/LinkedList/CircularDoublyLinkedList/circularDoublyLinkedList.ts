@@ -21,16 +21,49 @@ const CircularDoublyLinkedList = <T>(): LinkedList<T> => {
   const append = (value: T) => {
     if (size === 0 && head === null && tail === null)
       return addFirstNode(value);
+    const newNode = Node(value);
+    newNode.next = head;
+    head!.prev = newNode;
+    tail!.next = newNode;
+    newNode.prev = tail;
+    tail = newNode;
+    size += 1;
     return size;
   };
   const prepend = (value: T) => {
     if (size === 0 && head === null && tail === null)
       return addFirstNode(value);
+    const newNode = Node(value);
+    head!.prev = newNode;
+    newNode.next = head;
+    newNode.prev = tail;
+    tail!.next = newNode;
+    head = newNode;
+    size += 1;
     return size;
   };
   const insert = (index: number, value: T) => {
-    if (size === 0 && head === null && tail === null)
-      return addFirstNode(value);
+    if (index < 0 || index > size) return undefined;
+    if (index === 0) return prepend(value);
+    if (index === size) return append(value);
+
+    const half = Math.floor(size / 2);
+    const direction = half <= index ? 'head' : 'tail';
+
+    let position = direction === 'head' ? 0 : size - 1;
+    let pointer = direction === 'head' ? head : tail;
+    while (position !== index - 1) {
+      position += direction === 'head' ? 1 : -1;
+      pointer = direction === 'head' ? pointer!.next : pointer!.prev;
+    }
+
+    const newNode = Node(value);
+    const nextNode = pointer?.next as DoubleNode<T>;
+    pointer!.next = newNode;
+    newNode.prev = pointer;
+    newNode.next = nextNode;
+    nextNode.prev = newNode;
+    size += 1;
     return size;
   };
   const pop = () => {
