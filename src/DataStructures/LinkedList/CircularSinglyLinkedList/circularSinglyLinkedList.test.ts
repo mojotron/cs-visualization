@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import CircularSinglyLinkedList from './circularSinglyLinkedList';
+import { LinkedList } from '../types';
 
 describe('Circular Singly Linked List', () => {
   test('add new node at the end', () => {
@@ -115,5 +116,58 @@ describe('Circular Singly Linked List', () => {
     const b = list.deleteAt(0);
     expect(b).toBe('B');
     expect(list.print()).toBe('empty');
+  });
+
+  test('search primitive value', () => {
+    const list = CircularSinglyLinkedList<number>();
+    list.append(1);
+    list.append(2);
+    list.append(3);
+    list.append(4);
+
+    const three = list.search((ele) => ele === 3);
+    expect(three).toBe(3);
+    const five = list.search((ele) => ele === 5);
+    expect(five).toBe(undefined);
+  });
+
+  test('search value in the object', () => {
+    const list = CircularSinglyLinkedList<{
+      userName: string;
+      age: number;
+      premium: boolean;
+    }>();
+    list.append({ userName: 'Bob', age: 35, premium: true });
+    list.append({ userName: 'Sara', age: 20, premium: true });
+    list.append({ userName: 'Mike', age: 24, premium: false });
+    const hasSara = list.search((ele) => ele.userName === 'Sara');
+    expect(hasSara).toEqual({ userName: 'Sara', age: 20, premium: true });
+    const age24 = list.search((ele) => ele.age === 24);
+    expect(age24).toEqual({ userName: 'Mike', age: 24, premium: false });
+    const firstPremium = list.search((ele) => ele.premium === true);
+    expect(firstPremium).toEqual({ userName: 'Bob', age: 35, premium: true });
+  });
+
+  test('reverse', () => {
+    const list = CircularSinglyLinkedList<string>();
+    list.append('A');
+    list.append('B');
+    list.append('C');
+    list.append('D');
+    list.append('E');
+    list.append('F');
+
+    const reversed = list.reverse() as LinkedList<string>;
+    expect(reversed.print()).toBe('F -> E -> D -> C -> B -> A -> HEAD(F)');
+  });
+
+  test('reverse in place', () => {
+    const list = CircularSinglyLinkedList<string>();
+    list.append('A');
+    list.append('B');
+    list.append('C');
+    list.append('D');
+    list.reverseInPlace();
+    expect(list.print()).toBe('D -> C -> B -> A -> HEAD(D)');
   });
 });

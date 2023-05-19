@@ -144,14 +144,42 @@ const CircularSinglyLinkedList = <T>(): LinkedList<T> => {
   };
 
   const search = (callback: (ele: T, index: number) => boolean) => {
+    if (head === null) return undefined;
+    let position = 0;
+    let pointer = head;
+    while (position < size) {
+      if (callback(pointer.value, position)) return pointer.value;
+      pointer = pointer?.next as SingleNode<T>;
+      position += 1;
+    }
     return undefined;
   };
   const reverse = () => {
-    return null;
+    const reversed = CircularSinglyLinkedList<T>();
+    const stack: T[] = [];
+    forEach((value) => stack.push(value));
+    while (stack.length > 0) {
+      reversed.append(stack.pop() as T);
+    }
+    return reversed;
   };
+
   const reverseInPlace = () => {
-    return null;
+    let prev = null;
+    let current = head;
+
+    do {
+      const nextNode = current!.next;
+      current!.next = prev;
+      prev = current;
+      current = nextNode;
+    } while (current !== head);
+
+    tail = head;
+    head!.next = prev;
+    head = prev;
   };
+
   const sort = () => {
     return null;
   };
