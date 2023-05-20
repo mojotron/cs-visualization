@@ -16,6 +16,7 @@ const CircularDoublyLinkedList = <T>(): LinkedList<T> => {
     tail.next = head;
     head.prev = tail;
     size += 1;
+    return size;
   };
 
   const append = (value: T) => {
@@ -66,14 +67,62 @@ const CircularDoublyLinkedList = <T>(): LinkedList<T> => {
     size += 1;
     return size;
   };
+  // remove element
+  const removeFirstNode = () => {
+    const { value } = head as DoubleNode<T>;
+    head = null;
+    tail = null;
+    size = 0;
+    return value;
+  };
+
   const pop = () => {
-    return undefined;
+    if (size === 0) return undefined;
+    if (size === 1 && head === tail) return removeFirstNode();
+    const { value } = tail as DoubleNode<T>;
+    const prevNode = tail?.prev;
+    prevNode!.next = head;
+    head!.prev = prevNode as DoubleNode<T>;
+    tail = prevNode as DoubleNode<T>;
+    size -= 1;
+    return value;
   };
   const shift = () => {
-    return undefined;
+    if (size === 0) return undefined;
+    if (size === 1 && head === tail) return removeFirstNode();
+    const { value } = head as DoubleNode<T>;
+    const nextNode = head!.next;
+    nextNode!.prev = tail;
+    tail!.next = nextNode;
+    head = nextNode;
+    size -= 1;
+    return value;
   };
-  const deleteAt = () => {
-    return undefined;
+  const deleteAt = (index: number) => {
+    if (head === null || index < 0 || index > size - 1) return undefined;
+    if (index === 0) return shift();
+    if (index === size - 1) return pop();
+
+    const half = Math.floor(size / 2);
+    const direction = half <= index ? 'head' : 'tail';
+    let position = direction === 'head' ? 0 : size - 1;
+    let pointer = direction === 'head' ? head : tail;
+
+    while (position !== index) {
+      position += direction === 'head' ? 1 : -1;
+      pointer = direction === 'head' ? pointer!.next : pointer!.prev;
+    }
+
+    const { value } = pointer as DoubleNode<T>;
+    const prevNode = pointer?.prev as DoubleNode<T>;
+    const nextNode = pointer?.next as DoubleNode<T>;
+    prevNode.next = nextNode;
+    nextNode.prev = prevNode;
+    // remove form memory
+    pointer!.next = null;
+    pointer!.prev = null;
+    size -= 1;
+    return value;
   };
 
   const forEach = (callback: (value: T, index: number) => void) => {
