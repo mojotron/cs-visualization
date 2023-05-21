@@ -1,4 +1,4 @@
-import { LinkedList, SingleNode } from '../types';
+import { LinkedList, SingleNode, SinglyForEach } from '../types';
 
 const Node = <T>(value: T): SingleNode<T> => {
   return {
@@ -7,7 +7,7 @@ const Node = <T>(value: T): SingleNode<T> => {
   };
 };
 
-const CircularSinglyLinkedList = <T>(): LinkedList<T> => {
+const CircularSinglyLinkedList = <T>(): LinkedList<T> & SinglyForEach<T> => {
   let size = 0;
   let head: null | SingleNode<T> = null;
   let tail: null | SingleNode<T> = null;

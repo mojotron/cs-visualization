@@ -19,10 +19,20 @@ export type LinkedList<T> = {
   pop: () => T | undefined;
   shift: () => T | undefined;
   deleteAt: (index: number) => T | undefined;
-  forEach: (callback: (value: T, index: number) => void) => void;
   print: () => void;
   search: (callback: (ele: T, index: number) => boolean) => T | undefined;
   reverse: () => LinkedList<T> | null;
   reverseInPlace: () => void;
   sort: () => LinkedList<T> | null;
+};
+
+export type SinglyForEach<T> = {
+  forEach: (callback: (value: T, index: number) => void) => void;
+};
+
+export type DoublyForEach<T> = {
+  forEach: (
+    startFrom: 'head' | 'tail',
+    callback: (value: T, index: number) => void
+  ) => void;
 };

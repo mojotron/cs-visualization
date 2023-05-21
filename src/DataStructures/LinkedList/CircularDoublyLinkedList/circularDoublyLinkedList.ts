@@ -1,10 +1,10 @@
-import { LinkedList, DoubleNode } from '../types';
+import { LinkedList, DoubleNode, DoublyForEach } from '../types';
 
 const Node = <T>(value: T): DoubleNode<T> => {
   return { value, next: null, prev: null };
 };
 
-const CircularDoublyLinkedList = <T>(): LinkedList<T> => {
+const CircularDoublyLinkedList = <T>(): LinkedList<T> & DoublyForEach<T> => {
   let size = 0;
   let head: null | DoubleNode<T> = null;
   let tail: null | DoubleNode<T> = null;
@@ -125,17 +125,24 @@ const CircularDoublyLinkedList = <T>(): LinkedList<T> => {
     return value;
   };
 
-  const forEach = (callback: (value: T, index: number) => void) => {
-    let pointer = head;
-    for (let i = 0; i < size; i += 1) {
-      callback(pointer!.value, i);
-      pointer = pointer!.next as DoubleNode<T>;
+  const forEach = (
+    startFrom: 'head' | 'tail',
+    callback: (value: T, index: number) => void
+  ) => {
+    let position = startFrom === 'head' ? 0 : size - 1;
+    let pointer = startFrom === 'head' ? head : tail;
+    const stopCondition = startFrom === 'head' ? size : -1;
+
+    while (position !== stopCondition) {
+      callback(pointer!.value, position);
+      position += startFrom === 'head' ? 1 : -1;
+      pointer = startFrom === 'head' ? pointer!.next : pointer!.prev;
     }
   };
 
   const print = () => {
     const result: T[] = [];
-    forEach((value) => result.push(value));
+    forEach('head', (value) => result.push(value));
 
     if (result.length > 0) {
       return `TAIL(${head?.prev?.value}) <- ${result.join(
@@ -149,7 +156,9 @@ const CircularDoublyLinkedList = <T>(): LinkedList<T> => {
     return undefined;
   };
   const reverse = () => {
-    return head;
+    const reversed = CircularDoublyLinkedList<T>();
+    forEach('tail', (value) => reversed.append(value));
+    return reversed;
   };
   const reverseInPlace = () => {
     return head;

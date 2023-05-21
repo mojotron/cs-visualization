@@ -132,4 +132,34 @@ describe('Circular Doubly Linked List', () => {
       expect(list.print()).toBe('empty');
     });
   });
+
+  describe('reverse', () => {
+    test('create new reversed CDLL', () => {
+      const list = CircularDoublyLinkedList<string>();
+      list.append('A');
+      list.append('B');
+      list.append('C');
+      list.append('D');
+      list.append('E');
+      list.append('F');
+      const newReversed = list.reverse();
+      expect(newReversed?.print()).toBe(
+        'TAIL(A) <- F <-> E <-> D <-> C <-> B <-> A -> HEAD(F)'
+      );
+    });
+
+    test.skip('reverse in place', () => {
+      const list = CircularDoublyLinkedList<string>();
+      list.append('A');
+      list.append('B');
+      list.append('C');
+      list.append('D');
+      list.append('E');
+      list.append('F');
+      list.reverse();
+      expect(list.print()).toBe(
+        'TAIL(A) <- F <-> E <-> D <-> C <-> B <-> A -> HEAD(F)'
+      );
+    });
+  });
 });
