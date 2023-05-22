@@ -153,6 +153,15 @@ const CircularDoublyLinkedList = <T>(): LinkedList<T> & DoublyForEach<T> => {
   };
 
   const search = (callback: (ele: T, index: number) => boolean) => {
+    if (head === null) return undefined;
+    let position = 0;
+    let pointer = head;
+
+    while (position < size) {
+      if (callback(pointer.value, position)) return pointer.value;
+      position += 1;
+      pointer = pointer.next as DoubleNode<T>;
+    }
     return undefined;
   };
   const reverse = () => {
@@ -161,10 +170,23 @@ const CircularDoublyLinkedList = <T>(): LinkedList<T> & DoublyForEach<T> => {
     return reversed;
   };
   const reverseInPlace = () => {
-    return head;
+    let prevNode = null;
+    let currentNode = head;
+
+    do {
+      const nextNode = currentNode!.next;
+      currentNode!.next = prevNode;
+      prevNode = currentNode;
+      currentNode = nextNode;
+    } while (currentNode !== head);
+
+    tail = head;
+    prevNode!.prev = tail;
+    head!.next = prevNode;
+    head = prevNode;
   };
   const sort = () => {
-    return head;
+    return null;
   };
 
   return {

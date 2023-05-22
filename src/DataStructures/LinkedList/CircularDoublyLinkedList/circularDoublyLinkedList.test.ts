@@ -148,7 +148,7 @@ describe('Circular Doubly Linked List', () => {
       );
     });
 
-    test.skip('reverse in place', () => {
+    test('reverse in place', () => {
       const list = CircularDoublyLinkedList<string>();
       list.append('A');
       list.append('B');
@@ -156,10 +156,46 @@ describe('Circular Doubly Linked List', () => {
       list.append('D');
       list.append('E');
       list.append('F');
-      list.reverse();
+      list.reverseInPlace();
       expect(list.print()).toBe(
         'TAIL(A) <- F <-> E <-> D <-> C <-> B <-> A -> HEAD(F)'
       );
+      list.append('G');
+      expect(list.print()).toBe(
+        'TAIL(G) <- F <-> E <-> D <-> C <-> B <-> A <-> G -> HEAD(F)'
+      );
+    });
+  });
+
+  describe('search', () => {
+    test.only('search primitive value', () => {
+      const list = CircularDoublyLinkedList<number>();
+      list.append(1);
+      list.append(2);
+      list.append(3);
+      list.append(4);
+
+      const three = list.search((ele) => ele === 3);
+      expect(three).toBe(3);
+      const five = list.search((ele) => ele === 5);
+      expect(five).toBe(undefined);
+    });
+
+    test('search value in the object', () => {
+      const list = CircularDoublyLinkedList<{
+        userName: string;
+        age: number;
+        premium: boolean;
+      }>();
+      list.append({ userName: 'Bob', age: 35, premium: true });
+      list.append({ userName: 'Sara', age: 20, premium: true });
+      list.append({ userName: 'Mike', age: 24, premium: false });
+      const hasSara = list.search((ele) => ele.userName === 'Sara');
+      expect(hasSara).toEqual({ userName: 'Sara', age: 20, premium: true });
+      const age24 = list.search((ele) => ele.age === 24);
+      expect(age24).toEqual({ userName: 'Mike', age: 24, premium: false });
+      const firstPremium = list.search((ele) => ele.premium === true);
+      expect(firstPremium).toEqual({ userName: 'Bob', age: 35, premium: true });
     });
   });
 });
