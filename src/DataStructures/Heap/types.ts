@@ -1,8 +1,14 @@
-export type HeapType = 'min' | 'max';
+export type NodeType<T> = {
+  id: number;
+  value: T;
+};
 
-export type Heap = {
-  heapify: () => void;
-  insert: () => void;
-  delete: () => void;
-  peek: () => void;
+// export type HeapType = 'min' | 'max';
+
+export type HeapType<T> = {
+  // heapify: () => void;
+  stringify: () => string;
+  insert: (priority: number, value: T) => void;
+  extract: () => undefined | T;
+  // peek: () => void;
 };

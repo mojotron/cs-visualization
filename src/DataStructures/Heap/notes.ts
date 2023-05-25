@@ -1,8 +1,8 @@
 // array representation on binary heap
 // node -> index i
-// left child -> 2 * 1
-// right child -> 2 * 1 + 1
-// parent -> floor[i/2]
+// left child -> 2 * 1 + 1
+// right child -> 2 * 1 + 2
+// parent -> floor[(i - 1)/2]
 //
 // heap is complete binary tree
 // two types of heap
