@@ -52,4 +52,16 @@ describe('Binary Heap with Array implementation', () => {
     const x = heap.extract();
     expect(x).toBe(undefined);
   });
+
+  test('heap sort', () => {
+    const heap = BinaryHeapArray<string>(10);
+
+    const arr1 = [10, 20, 25, 6, 12, 15, 4, 16];
+    heap.heapSort(arr1);
+    expect(arr1).toEqual([4, 6, 10, 12, 15, 16, 20, 25]);
+
+    const arr2 = [35, 33, 42, 10, 14, 19, 27, 44, 26, 31];
+    heap.heapSort(arr2);
+    expect(arr2).toEqual([10, 14, 19, 26, 27, 31, 33, 35, 42, 44]);
+  });
 });

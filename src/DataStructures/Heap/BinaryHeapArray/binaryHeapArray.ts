@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import { HeapType, NodeType } from '../types';
 
 const Node = <T>(id: number, value: T): NodeType<T> => {
@@ -86,7 +88,39 @@ const BinaryHeapArray = <T>(size: number): HeapType<T> => {
     return value;
   };
 
-  return { stringify, insert, extract };
+  const heapify = (array: number[], heapSize: number, rootIndex: number) => {
+    const leftChild = 2 * rootIndex + 1;
+    const rightChild = 2 * rootIndex + 2;
+    let largest = rootIndex;
+    if (leftChild < heapSize && array[leftChild] > array[rootIndex])
+      largest = leftChild;
+    if (rightChild < heapSize && array[rightChild] > array[largest])
+      largest = rightChild;
+    if (rootIndex !== largest) {
+      const temp = array[rootIndex];
+      array[rootIndex] = array[largest];
+      array[largest] = temp;
+      heapify(array, heapSize, largest);
+    }
+  };
+
+  const buildMaxHeap = (arr: number[]) => {
+    for (let i = Math.floor(arr.length / 2) - 1; i >= 0; i -= 1) {
+      heapify(arr, arr.length, i);
+    }
+  };
+
+  const heapSort = (arr: number[]) => {
+    buildMaxHeap(arr); // in place
+    for (let i = arr.length - 1; i > 0; i -= 1) {
+      const temp = arr[0];
+      arr[0] = arr[i];
+      arr[i] = temp;
+      heapify(arr, i, 0);
+    }
+  };
+
+  return { stringify, insert, extract, buildMaxHeap, heapSort };
 };
 
 export default BinaryHeapArray;
