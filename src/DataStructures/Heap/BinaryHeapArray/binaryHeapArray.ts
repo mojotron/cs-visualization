@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import { HeapType, NodeType } from '../types';
 
 const Node = <T>(id: number, value: T): NodeType<T> => {
