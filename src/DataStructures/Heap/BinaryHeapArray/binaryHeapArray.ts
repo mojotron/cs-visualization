@@ -88,39 +88,17 @@ const BinaryHeapArray = <T>(size: number): HeapType<T> => {
     return value;
   };
 
-  const heapify = (array: number[], heapSize: number, rootIndex: number) => {
-    const leftChild = 2 * rootIndex + 1;
-    const rightChild = 2 * rootIndex + 2;
-    let largest = rootIndex;
-    if (leftChild < heapSize && array[leftChild] > array[rootIndex])
-      largest = leftChild;
-    if (rightChild < heapSize && array[rightChild] > array[largest])
-      largest = rightChild;
-    if (rootIndex !== largest) {
-      const temp = array[rootIndex];
-      array[rootIndex] = array[largest];
-      array[largest] = temp;
-      heapify(array, heapSize, largest);
-    }
+  const peek = () => {
+    if (heap.length === 0) return undefined;
+    const peekValue = heap[0].value;
+    if (typeof peekValue === 'object' && Array.isArray(peekValue))
+      return [...peekValue] as T;
+    if (typeof peekValue === 'object' && !Array.isArray(peekValue))
+      return { ...peekValue } as T;
+    return peekValue;
   };
 
-  const buildMaxHeap = (arr: number[]) => {
-    for (let i = Math.floor(arr.length / 2) - 1; i >= 0; i -= 1) {
-      heapify(arr, arr.length, i);
-    }
-  };
-
-  const heapSort = (arr: number[]) => {
-    buildMaxHeap(arr); // in place
-    for (let i = arr.length - 1; i > 0; i -= 1) {
-      const temp = arr[0];
-      arr[0] = arr[i];
-      arr[i] = temp;
-      heapify(arr, i, 0);
-    }
-  };
-
-  return { stringify, insert, extract, buildMaxHeap, heapSort };
+  return { stringify, insert, extract, peek };
 };
 
 export default BinaryHeapArray;
