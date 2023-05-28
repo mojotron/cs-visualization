@@ -35,7 +35,7 @@ export const heapSort = (arr: Input): void => {
     const swap = arr[0];
     arr[0] = arr[i];
     arr[i] = swap;
-
+    // bring largest/lowest element to the root after swap
     heapify(arr, i, 0);
   }
 };

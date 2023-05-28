@@ -3,8 +3,6 @@ export type NodeType<T> = {
   value: T;
 };
 
-// export type HeapType = 'min' | 'max';
-
 export type HeapType<T> = {
   stringify: () => string;
   insert: (priority: number, value: T) => void;
