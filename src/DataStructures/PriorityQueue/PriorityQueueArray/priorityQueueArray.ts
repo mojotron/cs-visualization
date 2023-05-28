@@ -1,6 +1,6 @@
-import { NodeType, PriorityQueueType } from '../types';
+import { NodeArrayType, PriorityQueueType } from '../types';
 
-const Node = <T>(priority: number, value: T): NodeType<T> => ({
+const Node = <T>(priority: number, value: T): NodeArrayType<T> => ({
   priority,
   value,
 });
@@ -10,7 +10,7 @@ const Node = <T>(priority: number, value: T): NodeType<T> => ({
 
 // max priority implementation
 const PriorityQueueArray = <T>(): PriorityQueueType<T> => {
-  let queue: NodeType<T>[] = [];
+  let queue: NodeArrayType<T>[] = [];
 
   const isEmpty = (): boolean => {
     return queue.length === 0;

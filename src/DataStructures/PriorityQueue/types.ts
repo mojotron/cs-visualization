@@ -1,6 +1,12 @@
-export type NodeType<T> = {
+export type NodeArrayType<T> = {
   priority: number;
   value: T;
+};
+
+export type NodeLinkedListType<T> = {
+  priority: number;
+  value: T;
+  next: null | NodeLinkedListType<T>;
 };
 
 export type PriorityQueueType<T> = {
