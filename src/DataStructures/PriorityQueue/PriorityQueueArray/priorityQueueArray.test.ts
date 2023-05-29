@@ -15,14 +15,18 @@ describe('Priority Queue', () => {
     pq.insert(10, 'A');
     expect(pq.size).toBe(1);
     expect(pq.peek()).toBe('A');
-    pq.insert(20, 'B');
+    // same priority first in first out
+    pq.insert(10, 'X');
     expect(pq.size).toBe(2);
-    expect(pq.peek()).toBe('B');
-    pq.insert(5, 'C');
+    expect(pq.peek()).toBe('A');
+    pq.insert(20, 'B');
     expect(pq.size).toBe(3);
     expect(pq.peek()).toBe('B');
-    pq.insert(25, 'D');
+    pq.insert(5, 'C');
     expect(pq.size).toBe(4);
+    expect(pq.peek()).toBe('B');
+    pq.insert(25, 'D');
+    expect(pq.size).toBe(5);
     expect(pq.peek()).toBe('D');
   });
 
