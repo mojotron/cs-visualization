@@ -48,8 +48,8 @@ const PriorityQueueLinkedList = <T>(): PriorityQueueType<T> => {
   };
 
   const peek = (): undefined | T => {
-    if (queue === null) return undefined;
-    const topPriority = queue.value;
+    if (isEmpty()) return undefined;
+    const topPriority = queue!.value;
     if (typeof topPriority === 'object' && Array.isArray(topPriority))
       return [...topPriority] as T;
     if (typeof topPriority === 'object' && !Array.isArray(topPriority))
