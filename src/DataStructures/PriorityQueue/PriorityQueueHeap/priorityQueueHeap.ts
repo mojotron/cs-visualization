@@ -8,9 +8,7 @@ const Node = <T>(priority: number, value: T): NodeArrayType<T> => {
 // Time Complexity|  O(lon n) |  O(log n) |  O(1)
 
 // min priority implementation
-const PriorityQueueHeap = <T>(): PriorityQueueType<T> & {
-  stringify: () => string;
-} => {
+const PriorityQueueHeap = <T>(): PriorityQueueType<T> => {
   const queue: NodeArrayType<T>[] = []; // heap
 
   const isEmpty = (): boolean => {
@@ -38,12 +36,43 @@ const PriorityQueueHeap = <T>(): PriorityQueueType<T> & {
     bubbleUp(queue.length - 1);
   };
 
-  const bubbleDown = () => {};
+  const isLower = (childIndex: number, parentIndex: number): boolean => {
+    return queue[childIndex].priority < queue[parentIndex].priority;
+  };
+
+  const bubbleDown = (index: 0) => {
+    let position: number = index;
+    while (queue[position * 2 + 1]) {
+      const leftChild = 2 * position + 1;
+      const rightChild = 2 * position + 2;
+      let lowestIndex: number = position;
+
+      if (queue[leftChild] && isLower(leftChild, position))
+        lowestIndex = leftChild;
+
+      if (queue[rightChild] && isLower(rightChild, lowestIndex))
+        lowestIndex = rightChild;
+
+      if (lowestIndex !== position) {
+        const swap = queue[lowestIndex];
+        queue[lowestIndex] = queue[position];
+        queue[position] = swap;
+        position = lowestIndex;
+      } else {
+        break;
+      }
+    }
+  };
 
   const pull = (): undefined | T => {
     if (isEmpty()) return undefined;
-    const last = queue.pop();
-    return last?.value;
+    const { value } = queue[0];
+    const last = queue.pop() as NodeArrayType<T>;
+    if (!isEmpty()) {
+      queue[0] = last;
+      bubbleDown(0);
+    }
+    return value;
   };
 
   const peek = (): undefined | T => {
@@ -73,8 +102,6 @@ const PriorityQueueHeap = <T>(): PriorityQueueType<T> & {
     insert,
     pull,
     peek,
-    //
-    stringify,
   };
 };
 

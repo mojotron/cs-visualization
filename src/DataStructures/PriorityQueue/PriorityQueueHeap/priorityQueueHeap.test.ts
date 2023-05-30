@@ -48,5 +48,38 @@ describe('Priority Queue, Heap Implementation', () => {
     expect(pq.peek()).toBe('H');
   });
 
-  test('pull minimum value out', () => {});
+  test('pull minimum value out', () => {
+    const pq = PriorityQueueHeap<string>();
+    expect(pq.size).toBe(0);
+    pq.insert(10, 'A');
+    pq.insert(20, 'B');
+    pq.insert(20, 'C');
+    pq.insert(5, 'D');
+    pq.insert(25, 'E');
+    expect(pq.size).toBe(5);
+    expect(pq.peek()).toBe('D');
+
+    const d = pq.pull();
+    expect(d).toBe('D');
+    expect(pq.peek()).toBe('A');
+
+    const a = pq.pull();
+    expect(a).toBe('A');
+    expect(pq.peek()).toBe('B');
+
+    const b = pq.pull();
+    expect(b).toBe('B');
+    expect(pq.peek()).toBe('C');
+
+    const c = pq.pull();
+    expect(c).toBe('C');
+    expect(pq.peek()).toBe('E');
+
+    const e = pq.pull();
+    expect(e).toBe('E');
+    expect(pq.peek()).toBe(undefined);
+
+    const x = pq.pull();
+    expect(x).toBe(undefined);
+  });
 });
