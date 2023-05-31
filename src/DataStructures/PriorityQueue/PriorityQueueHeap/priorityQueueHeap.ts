@@ -85,15 +85,6 @@ const PriorityQueueHeap = <T>(): PriorityQueueType<T> => {
     return topPriority;
   };
 
-  const stringify = (): string => {
-    const result: string[] = [];
-    queue.forEach((ele) => {
-      result.push(`[${ele.priority}|${ele.value}]`);
-    });
-
-    return result.join(' ');
-  };
-
   return {
     get size() {
       return queue.length;
