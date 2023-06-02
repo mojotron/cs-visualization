@@ -17,3 +17,5 @@
 // 2. LR => 2 step rotation (double rotation) LR rotation
 // 3. RL => 2 step rotation (double rotation) RL rotation
 // 4. RR => RR rotation
+// Ave worst case balance -> when subtree hes heighr 1 more then other subbtree
+// for every node

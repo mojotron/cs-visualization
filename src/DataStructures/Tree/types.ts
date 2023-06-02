@@ -1,6 +1,7 @@
 export type NodeType<T> = {
   id: string;
   value: T;
+  height: number;
   left: NodeType<T> | null;
   right: NodeType<T> | null;
 };
