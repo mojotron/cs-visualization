@@ -130,6 +130,45 @@ const AVLTree = <T>(): AVLTreeType<T> => {
     root = insertNode(id, value, root as NodeType<T>);
   };
 
+  const nextMinValue = () => {};
+
+  const removeNode = (
+    rootNode: NodeType<T> | null,
+    id: string
+  ): NodeType<T> | null => {
+    if (rootNode === null) return rootNode;
+    if (id < rootNode.id)
+      rootNode.left = removeNode(rootNode.left as NodeType<T>, id);
+    if (id > rootNode.id)
+      rootNode.right = removeNode(rootNode.right as NodeType<T>, id);
+    if (id === rootNode.id) {
+      // deletion of leaf node
+      if (rootNode.left === null && rootNode.right === null) {
+        rootNode = null;
+        return rootNode;
+      }
+      // deletion of a node with 1 child node
+      if (rootNode.left === null) {
+        rootNode = rootNode.right;
+        return rootNode;
+      }
+      if (rootNode.right === null) {
+        rootNode = rootNode.left;
+        return rootNode;
+      }
+      // deletion of a node with 2 child nodes
+      if (rootNode.left !== null && rootNode.right !== null) {
+        const nextMin = nextMinValue(rootNode.right);
+        // TODO
+      }
+
+      // balance tree bottom -> top
+    }
+    return rootNode;
+  };
+
+  const remove = (id: string): void => {};
+
   const traverse = (
     rootNode: NodeType<T>,
     traversal: 'preOrder' | 'inOrder' | 'postOrder',
@@ -156,6 +195,7 @@ const AVLTree = <T>(): AVLTreeType<T> => {
     },
     insert,
     forEach,
+    remove,
   };
 };
 

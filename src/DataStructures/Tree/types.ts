@@ -11,7 +11,7 @@ export type AVLTreeType<T> = {
     traversal: 'preOrder' | 'inOrder' | 'postOrder',
     callback: (id: string, value: T) => void
   ) => void;
-  // delete: () => void;
+  remove: (id: string) => T;
   // TEMP
   height: number;
 };
