@@ -5,7 +5,6 @@ const Node = <T>(id: string, value: T): NodeType<T> => {
   return {
     id,
     value,
-    height: 0, // TODO
     left: null,
     right: null,
   };
@@ -29,49 +28,83 @@ const AVLTree = <T>(): AVLTreeType<T> => {
   };
   // left left imbalance -> rotate right
   const rightRotation = (rootNode: NodeType<T>) => {
-    //  root  A   =>      B       b = root.left
-    //       / \        /   \     bRight = b.right
-    //      B   Ar     C     A    b.right = root
-    //     / \        / \   / \   root.left = bRight;
+    //  root  A   =>      B       temp = root.left => B
+    //       / \        /   \     tempRight = temp.right => Br
+    //      B   Ar     C     A    temp.right = root
+    //     / \        / \   / \   root.left = tempRight;
     //    C   Br     Cl Cr Br  Ar
     //   / \
     //  Cl  Cr
-    const leftChild = rootNode.left as NodeType<T>;
-    const leftChildRight = leftChild?.right;
-    rootNode.left = leftChildRight;
-    leftChild.right = rootNode;
+    const temp = rootNode.left as NodeType<T>;
+    const tempRight = temp?.right;
+    temp.right = rootNode;
+    rootNode.left = tempRight;
 
-    return leftChild;
+    return temp;
   };
   // right right imbalance -> rotate left
   const leftRotation = (rootNode: NodeType<T>) => {
-    //  root  A   =>       B        b = root.right
-    //       / \         /   \      bLeft = b.left
-    //      Al  B       A     C     b.left = root
-    //         / \     / \   / \   root.right = bLeft;
+    //  root  A   =>       B        temp = root.right => B
+    //       / \         /   \      tempLeft = temp.left => Bl
+    //      Al  B       A     C     temp.left = root
+    //         / \     / \   / \    root.right = tempLeft;
     //        Bl  C   Al Bl Cl  Cr
     //           / \
     //          Cl  Cr
-    const rightChild = rootNode.right as NodeType<T>;
-    const rightChildLeft = rightChild?.left;
-    rootNode.right = rightChildLeft;
-    rightChild.right = rootNode;
+    const temp = rootNode.right as NodeType<T>;
+    const tempLeft = temp?.left;
+    temp.left = rootNode;
+    rootNode.right = tempLeft;
 
-    return rightChild;
+    return temp;
   };
   //
   const balance = (rootNode: NodeType<T>, id: string) => {
     const balanceFactor = calcBalanceFactor(rootNode);
     // rotations
     // left imbalance
-    if (balanceFactor > 1) {
-      // left right imbalance
+    if (balanceFactor > 1 && rootNode.left) {
       // left left imbalance
+      if (id < rootNode.left.id) {
+        //     C <- rootNode.id
+        //    /
+        //   B <- rootNode.left
+        //  /
+        // A <- id => id < rootNode.left.id => B < A
+        return rightRotation(rootNode);
+      }
+      // left right imbalance
+      if (id > rootNode.left.id) {
+        //     C <- rootNode.id
+        //    /
+        //   A <- rootNode.left
+        //    \
+        //     B <- id => id > rootNode.left.id => B > A
+        rootNode.left = leftRotation(rootNode.left);
+        return rightRotation(rootNode);
+      }
     }
     // right imbalance
-    if (balanceFactor < -1) {
+    if (balanceFactor < -1 && rootNode.right) {
       // right left imbalance
+      if (id > rootNode.right.id) {
+        // A <- rootNode.id
+        //  \
+        //   B <- rootNode.right
+        //    \
+        //     C <- id => id > rootNode.right.id => C > B
+        return leftRotation(rootNode);
+      }
       // right right imbalance
+      if (id < rootNode.right.id) {
+        //  C <- rootNode.id
+        //   \
+        //    B <- rootNode.right
+        //   /
+        //  A <- id => id < rootNode.right.id => A < B
+        rootNode.right = rightRotation(rootNode.right);
+        return leftRotation(rootNode);
+      }
     }
     return rootNode;
   };
@@ -89,14 +122,32 @@ const AVLTree = <T>(): AVLTreeType<T> => {
     if (id >= rootNode.id) {
       rootNode.right = insertNode(id, value, rootNode.right as NodeType<T>);
     }
-    // 2. fix avl property
-    // balance tree bottom -> top (go back)
+    // 2. fix avl property balance tree bottom -> top (go back)
     return balance(rootNode, id);
   };
 
   const insert = (id: string, value: T) => {
     root = insertNode(id, value, root as NodeType<T>);
-    console.log(root);
+  };
+
+  const traverse = (
+    rootNode: NodeType<T>,
+    traversal: 'preOrder' | 'inOrder' | 'postOrder',
+    callback: (id: string, value: T) => void
+  ): void => {
+    if (rootNode === null) return;
+    if (traversal === 'preOrder') callback(rootNode.id, rootNode.value);
+    traverse(rootNode.left as NodeType<T>, traversal, callback);
+    if (traversal === 'inOrder') callback(rootNode.id, rootNode.value);
+    traverse(rootNode.right as NodeType<T>, traversal, callback);
+    if (traversal === 'postOrder') callback(rootNode.id, rootNode.value);
+  };
+
+  const forEach = (
+    traversal: 'preOrder' | 'inOrder' | 'postOrder',
+    callback: (id: string, value: T) => void
+  ): void => {
+    traverse(root as NodeType<T>, traversal, callback);
   };
 
   return {
@@ -104,6 +155,7 @@ const AVLTree = <T>(): AVLTreeType<T> => {
       return calcHeight(root);
     },
     insert,
+    forEach,
   };
 };
 
