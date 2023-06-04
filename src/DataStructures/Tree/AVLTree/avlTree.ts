@@ -59,6 +59,18 @@ const AVLTree = <T>(): AVLTreeType<T> => {
     return temp;
   };
   //
+  const searchId = (rootNode: NodeType<T>, id: string): undefined | T => {
+    if (rootNode === null) return undefined;
+    if (id < rootNode.id) return searchId(rootNode.left as NodeType<T>, id);
+    if (id > rootNode.id) return searchId(rootNode.right as NodeType<T>, id);
+    if (rootNode.id === id) return rootNode.value;
+  };
+
+  const getValue = (id: string): undefined | T => {
+    const value = searchId(root as NodeType<T>, id);
+    return value;
+  };
+
   const balance = (rootNode: NodeType<T>, id: string) => {
     const balanceFactor = calcBalanceFactor(rootNode);
     // rotations
@@ -130,7 +142,14 @@ const AVLTree = <T>(): AVLTreeType<T> => {
     root = insertNode(id, value, root as NodeType<T>);
   };
 
-  const nextMinValue = () => {};
+  const nextMinValue = (
+    rootNode: NodeType<T>
+  ): undefined | { id: string; value: T } => {
+    if (rootNode === null) return undefined;
+    if (rootNode.left === null)
+      return { id: rootNode.id, value: rootNode.value };
+    return nextMinValue(rootNode.left);
+  };
 
   const removeNode = (
     rootNode: NodeType<T> | null,
@@ -158,16 +177,53 @@ const AVLTree = <T>(): AVLTreeType<T> => {
       }
       // deletion of a node with 2 child nodes
       if (rootNode.left !== null && rootNode.right !== null) {
-        const nextMin = nextMinValue(rootNode.right);
-        // TODO
+        const nextMin = nextMinValue(rootNode.right) as {
+          id: string;
+          value: T;
+        };
+        rootNode.id = nextMin.id;
+        rootNode.value = nextMin.value;
+        rootNode.right = removeNode(rootNode.right, nextMin.id);
       }
-
       // balance tree bottom -> top
+    }
+    const balanceFactor = calcBalanceFactor(rootNode);
+    // left imbalance
+    if (balanceFactor > 1 && rootNode.left) {
+      const leftSubtreeBalanceFactor = calcBalanceFactor(rootNode.left);
+      // left left imbalance
+      if (leftSubtreeBalanceFactor >= 0) {
+        return rightRotation(rootNode);
+      }
+      // left right imbalance
+      if (leftSubtreeBalanceFactor < 0) {
+        rootNode.left = leftRotation(rootNode.left);
+        return rightRotation(rootNode);
+      }
+    }
+    // right imbalance
+    if (balanceFactor < -1 && rootNode.right) {
+      const rightSubtreeBalanceFactor = calcBalanceFactor(rootNode.right);
+      // right right imbalance
+      if (rightSubtreeBalanceFactor <= 0) {
+        return leftRotation(rootNode);
+      }
+      // right left imbalance
+      if (rightSubtreeBalanceFactor > 0) {
+        rootNode.right = rightRotation(rootNode.right);
+        return leftRotation(rootNode);
+      }
     }
     return rootNode;
   };
 
-  const remove = (id: string): void => {};
+  const remove = (id: string): undefined | T => {
+    const value = getValue(id);
+    if (value) {
+      root = removeNode(root, id);
+    }
+    return value;
+  };
 
   const traverse = (
     rootNode: NodeType<T>,
@@ -193,6 +249,7 @@ const AVLTree = <T>(): AVLTreeType<T> => {
     get height(): number {
       return calcHeight(root);
     },
+    getValue,
     insert,
     forEach,
     remove,
