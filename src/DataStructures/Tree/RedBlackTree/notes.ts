@@ -1,21 +1,35 @@
 // Red Black Tree
-// balanced search trees
-// guaranteed height of O(log n) for n items
+// -type of self balancing search tree, with strict set of rules in order to
+// maintain a logarithmic time complexity
+// - guaranteed height of O(log n) for n items
+// Red Black Rules:
 // 1. a node is either red or black
 // 2. the root and leaves(null) are black
-// 3. if a node is red, then its children are black
+// 3. if a node is red, then its children and parent are black
 // 4. all paths from a node to its null descendants contain the same number of
 //    black  nodes
+//                                    legends:
+//       (2)    <- passes or 4        () <- black
+//      /   \      rules              [] <- red
+//    (1)   (3)                       x  <- leaf node, null, considered black
+//    / \   / \
+//   x   x x   x
 //
-//            11B
-//         /      \
-//       2R        14B
-//     /    \      /  \
-//   1B      7B   B  15R
-//   / \    /  \     / \
-//  B   B  5R   8R  B  B
-//        / \   / \
-//       B   B B   B
+//       (2)    <- passes or 4        () <- black
+//      /   \      rules              [] <- red
+//    [1]   [3]                       x  <- null
+//    / \   / \
+//   x   x x   x
+//
+// rules violations
+//   (1)        (1)       (1)        (1)
+//   / \        / \       / \        / \
+//  x   [2]    x   (2)   x   [2]    x   (2)
+//      / \        / \       / \        / \
+//     x   [3]    x   [3]   x  (3)    x   (3)
+//                                         / \
+//    rule 3X    rule 4X   rule 4X        x   x  rule 4X
+// * general rule-chain of three nodes is not possible in RBT
 //
 // - nodes require one storage bit to keep track of color
 // - the longest path (root to farthest null) is no more then twice the length
@@ -27,6 +41,13 @@
 // - insert => O(log n)
 // - remove => O(log n)
 // space complexity => O(n) we require 1 extra storage
+//
+// Insertion
+// - inserting a node and immediately coloring it red
+// - recoloring
+// - rotations
+//
+//
 // insert and remove may result in violation of red-black tree properties ->
 // rotations to keep this property
 // Rotations

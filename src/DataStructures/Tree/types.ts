@@ -25,7 +25,7 @@ export type NodeRedBlack<T> = {
 };
 
 export type RedBlackTreeType<T> = {
-  insert: () => void;
+  insert: (id: number, value: T) => void;
   remove: () => void;
   search: () => void;
 };
