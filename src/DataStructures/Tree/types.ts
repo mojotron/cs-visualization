@@ -19,9 +19,10 @@ export type AVLTreeType<T> = {
 export type NodeRedBlack<T> = {
   id: number;
   value: T;
+  color: 'red' | 'black';
   left: NodeRedBlack<T> | null;
   right: NodeRedBlack<T> | null;
-  color: 'red' | 'black';
+  parent: NodeRedBlack<T> | null;
 };
 
 export type RedBlackTreeType<T> = {

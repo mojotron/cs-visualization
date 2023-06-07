@@ -46,10 +46,38 @@
 // - inserting a node and immediately coloring it red
 // - recoloring
 // - rotations
-//
+// Strategy
+//            (B) <- grandparent
+//            / \
+//  uncle-> (D) [A] <-parent
+//              /
+//            [Z] <- new node
+// 1. insert Z and color it red
+// 2. recolor and rotate nodes to fix violation
+//   - case 1. Z === root => color Z black
+//      [Z] => (Z)
+//   - case 2. Z.uncle === red => recolor parent, grandparent and uncle
+//      (B)            [B] <- subtree (root must be black)
+//      / \            / \
+//    [A] [C]  ===>  (A) (C)
+//      \              \
+//      [Z]            [Z]
+//   - case 3. Z.uncle === black (triangle) => rotate parent opposite of new node
+//      (B) \\            [B]                  child take place of parent
+//      / \  \\           / \
+//    (C) [A] \\ ===>   (A) [Z]
+//        /   //              \
+//      [Z]  //               [A]
+//   - case 4. Z.uncle === black (line) => rotate Z grandparent opposite of Z
+//      (B) \\            (A)             and recolor parent and grand parent
+//      / \  \\           / \
+//    (C) [A] \\===>    [B] [Z]
+//        / \  \\       / \
+//      (D) [Z] \\    (C) (D)
 //
 // insert and remove may result in violation of red-black tree properties ->
 // rotations to keep this property
+//
 // Rotations
 // - alter the structure of a tree by rearranging subtrees
 // - goal is to decrease the height of the tree
@@ -57,5 +85,5 @@
 //   - larger subtrees up, smaller subtrees down
 // - rotations do not affect the order of elements
 // >> 2 types of rotations
-// - rotate left
-// - rotate right
+// > rotate left
+// > rotate right
