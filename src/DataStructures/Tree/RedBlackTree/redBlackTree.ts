@@ -51,7 +51,32 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
     node = left;
   };
   //
-  const fixInsertion = () => {};
+  const fixInsertion = (node: NodeRedBlack<T>) => {
+    let pointer = node;
+    while (isRed(pointer.parent) && pointer.parent?.parent) {
+      const { parent } = pointer;
+      const grandparent = parent.parent;
+      // determine on which size parent is heavy
+      if (parent === grandparent?.left) {
+        // parent is left child of grandparent
+        // check for uncle color
+        if (isRed(grandparent.right)) {
+          // uncle is red
+        } else {
+          // uncle is black
+        }
+      } else {
+        // parent is right child of grandparent
+        // check for uncle color
+        if (isRed(grandparent.left)) {
+          // uncle is red
+        } else {
+          // uncle is black
+        }
+      }
+      pointer = grandparent;
+    }
+  };
 
   const insertNode = (rootNode: NodeRedBlack<T>, id: number, value: T) => {
     if (rootNode === null) {
