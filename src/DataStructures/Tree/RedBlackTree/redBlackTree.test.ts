@@ -10,6 +10,7 @@ describe('Red Black Tree', () => {
       rbt.insert(3, 'a');
       rbt.insert(4, 'b');
       rbt.insert(5, 'c');
+      rbt.print();
     });
   });
 });

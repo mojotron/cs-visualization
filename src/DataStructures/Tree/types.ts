@@ -29,4 +29,6 @@ export type RedBlackTreeType<T> = {
   insert: (id: number, value: T) => void;
   remove: () => void;
   search: () => void;
+  // TEMP
+  print: () => void;
 };
