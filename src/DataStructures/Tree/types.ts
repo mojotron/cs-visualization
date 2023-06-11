@@ -31,4 +31,6 @@ export type RedBlackTreeType<T> = {
   search: () => void;
   // TEMP
   print: () => void;
+  rotateLeft: (node: NodeRedBlack<T>) => void;
+  rotateRight: (node: NodeRedBlack<T>) => void;
 };

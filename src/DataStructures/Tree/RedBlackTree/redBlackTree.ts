@@ -25,7 +25,7 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
     node.color = node.color === 'black' ? 'red' : 'black';
   };
 
-  const rotateLeft = (node: NodeRedBlack<T>) => {
+  const rotateLeft = (x: NodeRedBlack<T>) => {
     //        |          |
     //        x   <<<<   y  O(1)
     //       / \  >>>>  / \
@@ -33,15 +33,20 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
     //         / \    / \
     //        B   C  A   B
     // https://www.jot.fm/issues/issue_2005_03/column6/
-    const parent = node.parent as NodeRedBlack<T>;
-    const right = node.right as NodeRedBlack<T>;
-    const temp = right.left;
-    right.left = node;
-    node.parent = right;
-    node.right = temp;
-    if (temp !== null) temp.parent = node;
-    if (right !== null) right.parent = parent;
-    node = right;
+    const y = x.right as NodeRedBlack<T>;
+    x.right = y.left;
+    if (y.left !== null) y.left.parent = x;
+    y.parent = x.parent;
+    if (x.parent === null) {
+      root = y;
+    } else if (x === x.parent.left) {
+      x.parent.left = y;
+    } else {
+      x.parent.right = y;
+    }
+    y.left = x;
+    x.parent = y;
+    console.log(y);
   };
 
   const rotateRight = (node: NodeRedBlack<T>) => {
@@ -60,17 +65,14 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
     let pointer = node;
     // pointer is red and while parent is red and there is grandparent loop and fix
     while (isRed(pointer.parent) && pointer.parent?.parent) {
-      console.log(node.id, '*');
       const { parent } = pointer;
       const grandparent = parent.parent as NodeRedBlack<T>;
       // // determine on which size parent is heavy
       if (parent === grandparent?.left) {
-        console.log('left');
         // parent is left child of grandparent
         // check for uncle color
         if (isRed(grandparent.right)) {
           // uncle is red => case 2 => recolor parent, grand parent and uncle
-          switchColor(grandparent);
         } else {
           // uncle is black or null
           if (pointer === parent.right) {
@@ -80,8 +82,6 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
             //   P   U
             //    \
             //     X
-            rotateLeft(parent);
-            pointer = parent;
           }
           // nodes are forming line => case 4 => rotate grandparent opposite of
           //     G                  new node and recolor parent and grandparent
@@ -89,19 +89,13 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
           //   P   U
           //  /
           // X
-          rotateRight(grandparent);
         }
       } else {
-        console.log('right');
         // parent is right child of grandparent
         // check for uncle color
         if (isRed(grandparent.left)) {
-          console.log('uncle red');
           // uncle is red => recolor parent, grand parent and uncle
-          switchColor(grandparent);
-          pointer = grandparent;
         } else {
-          console.log('uncle black');
           if (pointer === parent.left) {
             // nodes are forming triangle => case 3 => rotate parent opposite of
             //     G                        new node, child takes place of parent
@@ -109,8 +103,6 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
             //   U   P
             //      /
             //     X
-            rotateRight(parent);
-            pointer = parent;
           }
           // nodes are forming line => case 4 => rotate grandparent opposite of
           //     G                  new node and recolor parent and grandparent
@@ -118,13 +110,9 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
           //   U   P
           //        \
           //         X
-          rotateLeft(grandparent);
         }
       }
       pointer = grandparent;
-    }
-    if (root) {
-      root.color = 'black';
     }
   };
   // insert node with parent property
@@ -138,22 +126,22 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
       const left = insertNode(rootNode.left as NodeRedBlack<T>, id, value);
       rootNode.left = left;
       left.parent = rootNode;
-      fixInsertion(rootNode.left);
+      // fixInsertion(rootNode.left);
     }
     if (id > rootNode.id) {
       const right = insertNode(rootNode.right as NodeRedBlack<T>, id, value);
       rootNode.right = right;
       right.parent = rootNode;
-      fixInsertion(rootNode.right);
+
+      // fixInsertion(rootNode.right);
     }
     return rootNode;
   };
 
   const insert = (id: number, value: T) => {
-    // special case tree is empty => first node is black
-
-    root = insertNode(root as NodeRedBlack<T>, id, value);
-    if (id === 4) console.log(root);
+    const newTree = insertNode(root as NodeRedBlack<T>, id, value);
+    newTree.color = 'black';
+    root = newTree;
   };
 
   const remove = () => {};
@@ -169,6 +157,7 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
   };
 
   const print = () => {
+    return;
     inOrder(root as NodeRedBlack<T>);
   };
 
@@ -177,6 +166,8 @@ const RedBlackTree = <T>(): RedBlackTreeType<T> => {
     remove,
     search,
     print,
+    rotateRight,
+    rotateLeft,
   };
 };
 
