@@ -52,17 +52,14 @@ var RBTree = function () {
             var parent_1 = pointer.parent;
             var grandparent = parent_1.parent;
             if (parent_1 === (grandparent === null || grandparent === void 0 ? void 0 : grandparent.left)) {
-                console.log('left heavy');
                 var uncle = grandparent.right;
                 if ((uncle === null || uncle === void 0 ? void 0 : uncle.color) === 'red') {
-                    console.log('left heavy uncle red');
                     parent_1.color = 'black';
                     uncle.color = 'black';
                     grandparent.color = 'red';
                     pointer = grandparent;
                 }
                 else {
-                    console.log('left heavy uncle black');
                     if (pointer === parent_1.right) {
                         pointer = parent_1;
                         rotateLeft(pointer);
@@ -73,17 +70,14 @@ var RBTree = function () {
                 }
             }
             else {
-                console.log('right heavy');
                 var uncle = grandparent === null || grandparent === void 0 ? void 0 : grandparent.left;
                 if ((uncle === null || uncle === void 0 ? void 0 : uncle.color) === 'red') {
-                    console.log('right heavy uncle red');
                     parent_1.color = 'black';
                     uncle.color = 'black';
                     grandparent.color = 'red';
                     pointer = grandparent;
                 }
                 else {
-                    console.log('right heavy uncle black');
                     if (pointer === parent_1.left) {
                         pointer = parent_1;
                         rotateRight(pointer);
@@ -122,19 +116,56 @@ var RBTree = function () {
             parent.right = newNode;
         }
         fixInsertion(newNode);
-        root.color = 'black';
+    };
+    var print = function () {
+        var inOrder = function (node) {
+            if (node !== null) {
+                inOrder(node.left);
+                console.log(node.id);
+                inOrder(node.right);
+            }
+        };
+        inOrder(root);
+    };
+    var levelOrderTraversal = function () {
+        var temp = [];
+        var queue = [];
+        if (root)
+            queue.push(root);
+        while (queue.length) {
+            var subTemp = [];
+            var len = queue.length;
+            for (var i = 0; i < len; i += 1) {
+                var node = queue.shift();
+                subTemp.push("".concat(node.id, "-").concat(node.color));
+                if (node.left)
+                    queue.push(node.left);
+                if (node.right)
+                    queue.push(node.right);
+            }
+            temp.push(subTemp);
+        }
+        return temp;
     };
     return {
         get root() {
             return root;
         },
         insertNode: insertNode,
+        print: print,
+        levelOrderTraversal: levelOrderTraversal,
     };
 };
 var rbt = RBTree();
+rbt.insertNode(8);
 rbt.insertNode(5);
-rbt.insertNode(4);
-rbt.insertNode(3);
-rbt.insertNode(2);
-rbt.insertNode(1);
-console.log(rbt.root);
+rbt.insertNode(15);
+rbt.insertNode(12);
+rbt.insertNode(19);
+rbt.insertNode(9);
+rbt.insertNode(13);
+rbt.insertNode(23);
+rbt.insertNode(25);
+rbt.insertNode(17);
+var x = rbt.levelOrderTraversal();
+console.log(x);

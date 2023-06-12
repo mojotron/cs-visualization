@@ -12,8 +12,6 @@ const RBTree = () => {
   let root: any = null;
 
   const rotateLeft = (node: any) => {
-    console.log('r l');
-
     const temp = node.right;
     node.right = temp.left;
     if (temp.left !== null) temp.left.parent = node;
@@ -51,16 +49,13 @@ const RBTree = () => {
       const { parent } = pointer;
       const grandparent = parent.parent;
       if (parent === grandparent?.left) {
-        console.log('left heavy');
         const uncle = grandparent.right;
         if (uncle?.color === 'red') {
-          console.log('left heavy uncle red');
           parent.color = 'black';
           uncle.color = 'black';
           grandparent.color = 'red';
           pointer = grandparent;
         } else {
-          console.log('left heavy uncle black');
           if (pointer === parent.right) {
             pointer = parent;
             rotateLeft(pointer);
@@ -70,16 +65,13 @@ const RBTree = () => {
           rotateRight(grandparent);
         }
       } else {
-        console.log('right heavy');
         const uncle = grandparent?.left;
         if (uncle?.color === 'red') {
-          console.log('right heavy uncle red');
           parent.color = 'black';
           uncle.color = 'black';
           grandparent.color = 'red';
           pointer = grandparent;
         } else {
-          console.log('right heavy uncle black');
           if (pointer === parent.left) {
             pointer = parent;
             rotateRight(pointer);
@@ -119,7 +111,64 @@ const RBTree = () => {
     }
 
     fixInsertion(newNode);
-    root.color = 'black';
+  };
+
+  const print = () => {
+    const inOrder = (node: any) => {
+      if (node !== null) {
+        inOrder(node.left);
+        console.log(node.id);
+        inOrder(node.right);
+      }
+    };
+
+    inOrder(root);
+  };
+
+  // DELETION
+  const search = (id: number, rootNode = root): any => {
+    if (rootNode === null) return undefined;
+    if (rootNode.id === id) return rootNode;
+    if (id < rootNode.id) return search(id, rootNode.left);
+    if (id > rootNode.id) return search(id, rootNode.right);
+  };
+  // transplant
+  const transplant = (currentNode: any, newNode: any) => {
+    const { parent } = currentNode;
+    if (parent === null) root = newNode;
+    else if (currentNode === parent.left) parent.left = newNode;
+    else parent.right = newNode;
+    newNode.parent = currentNode.parent;
+  };
+
+  const getNextMinimum = (node: any) => {
+    let pointer = root;
+    while (pointer.left !== null) {
+      pointer = pointer.left;
+    }
+    return pointer;
+  };
+
+  const fixDeletion = () => {};
+
+  const deleteNode = (id: number) => {};
+  //
+  const levelOrderTraversal = () => {
+    const temp = [];
+    const queue = [];
+    if (root) queue.push(root);
+    while (queue.length) {
+      const subTemp = [];
+      const len = queue.length;
+      for (let i = 0; i < len; i += 1) {
+        const node: any = queue.shift();
+        subTemp.push(`${node.id}-${node.color}`);
+        if (node.left) queue.push(node.left);
+        if (node.right) queue.push(node.right);
+      }
+      temp.push(subTemp);
+    }
+    return temp;
   };
 
   return {
@@ -127,14 +176,22 @@ const RBTree = () => {
       return root;
     },
     insertNode,
+    print,
+    levelOrderTraversal,
   };
 };
 
 const rbt = RBTree();
+rbt.insertNode(8);
 rbt.insertNode(5);
-rbt.insertNode(4);
-rbt.insertNode(3);
-rbt.insertNode(2);
-rbt.insertNode(1);
+rbt.insertNode(15);
+rbt.insertNode(12);
+rbt.insertNode(19);
+rbt.insertNode(9);
+rbt.insertNode(13);
+rbt.insertNode(23);
+rbt.insertNode(25);
+rbt.insertNode(17);
 
-console.log(rbt.root);
+const x = rbt.levelOrderTraversal();
+console.log(x);

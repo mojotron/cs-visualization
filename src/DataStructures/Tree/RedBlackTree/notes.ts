@@ -87,3 +87,22 @@
 // >> 2 types of rotations
 // > rotate left
 // > rotate right
+//
+// Deletion
+// - transplant helper method => helps mov subtree within tree
+//   transplant(current, newNode) => replace parent
+//     if current.parent === null => root = newNode
+//     else if a === current.parent.left => current.parent.left = newNode
+//     else => current.parent.right = newNode
+//     current.patent = newNode.parent
+//
+// - deletion  => deletes the node
+//   case 1 => left child is null
+//   case 2 => right child is null
+//   case 3 => neither child is null
+
+// - delete fix method => fixes and red-black violation
+//   case 1 => w is red (w is sibling)
+//   case 2 => w is black + w.left and w.right are black
+//   case 3 => w is black + w.left is red and w.right is black
+//   case 4 => w is black + w.right is red
