@@ -138,7 +138,7 @@ const RBTree = () => {
     if (parent === null) root = newNode;
     else if (currentNode === parent.left) parent.left = newNode;
     else parent.right = newNode;
-    newNode.parent = currentNode.parent;
+    if (newNode) newNode.parent = currentNode.parent;
   };
 
   const getNextMinimum = (node: any) => {
@@ -149,9 +149,103 @@ const RBTree = () => {
     return pointer;
   };
 
-  const fixDeletion = () => {};
+  const fixDeletion = (node: any) => {
+    let pointer = node;
+    while (pointer !== root && pointer.color === 'black') {
+      if (pointer === pointer.parent.left) {
+        let sibling = pointer.parent.right;
+        // case 1 => w is red (w is sibling)
+        if (sibling.color === 'red') {
+          sibling.color = 'black';
+          pointer.parent.color = 'red';
+          rotateLeft(pointer.parent);
+        }
+        // case 2 => w is black + w.left and w.right are black
+        if (sibling.left.color === 'black' && sibling.right.color === 'right') {
+          sibling.color = 'red';
+          pointer = pointer.parent;
+        } else {
+          // case 3 => w is black + w.left is red and w.right is black
+          if (sibling.right.color === 'black') {
+            sibling.left.color = 'black';
+            sibling.color = 'red';
+            rotateRight(sibling);
+            sibling = pointer.parent.right;
+          }
+          // case 4 => w is black + w.right is red
+          sibling.color = pointer.parent.color;
+          pointer.parent.color = 'black';
+          sibling.right.color = 'black';
+          rotateLeft(pointer.parent);
+          pointer = root;
+        }
+      } else {
+        // node === node.parent.right
+        let sibling = pointer.parent.left;
+        // case 1 => w is red (w is sibling)
+        if (sibling.color === 'red') {
+          sibling.color = 'black';
+          pointer.parent.color = 'red';
+          rotateRight(pointer.parent);
+        }
+        // case 2 => w is black + w.left and w.right are black
+        if (sibling.left.color === 'black' && sibling.right.color === 'right') {
+          sibling.color = 'red';
+          pointer = pointer.parent;
+        } else {
+          // case 3 => w is black + w.left is red and w.right is black
+          if (sibling.left.color === 'black') {
+            sibling.right.color = 'black';
+            sibling.color = 'red';
+            rotateLeft(sibling);
+            sibling = pointer.parent.right;
+          }
+          // case 4 => w is black + w.right is red
+          sibling.color = pointer.parent.color;
+          pointer.parent.color = 'black';
+          sibling.left.color = 'black';
+          rotateRight(pointer.parent);
+          pointer = root;
+        }
+      }
+    }
+    pointer.color = 'black';
+  };
 
-  const deleteNode = (id: number) => {};
+  const deleteNode = (id: number) => {
+    const node = search(id);
+    if (!node) return undefined;
+    let target = node;
+    let targetOriginalColor = target.color;
+    // determine case
+    let temp;
+    if (target.left === null) {
+      // case 1 => left child is null
+      temp = target.right;
+      transplant(target, target.left);
+    } else if (target.right === null) {
+      // case 2 => right child is null
+      temp = target.left;
+      transplant(target, target.left);
+    } else {
+      // case 3 => neither child is null
+      target = getNextMinimum(node.right);
+      targetOriginalColor = target.color;
+      temp = target.right;
+      if (target.parent === node.right) {
+        temp.parent = target;
+      } else {
+        transplant(target, target.right);
+        temp.right = node.right;
+        temp.right.parent = target;
+      }
+      transplant(node, temp);
+      target.left = node.left;
+      target.left.parent = target;
+      target.color = node.color;
+    }
+    if (targetOriginalColor === 'black') fixDeletion(temp);
+  };
   //
   const levelOrderTraversal = () => {
     const temp = [];
@@ -178,6 +272,7 @@ const RBTree = () => {
     insertNode,
     print,
     levelOrderTraversal,
+    deleteNode,
   };
 };
 
@@ -192,6 +287,6 @@ rbt.insertNode(13);
 rbt.insertNode(23);
 rbt.insertNode(25);
 rbt.insertNode(17);
-
-const x = rbt.levelOrderTraversal();
-console.log(x);
+console.log(rbt.levelOrderTraversal());
+rbt.deleteNode(15);
+console.log(rbt.levelOrderTraversal());
