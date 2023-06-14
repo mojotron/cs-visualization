@@ -133,118 +133,124 @@ const RBTree = () => {
     if (id > rootNode.id) return search(id, rootNode.right);
   };
   // transplant
-  const transplant = (currentNode: any, newNode: any) => {
-    const { parent } = currentNode;
-    if (parent === null) root = newNode;
-    else if (currentNode === parent.left) parent.left = newNode;
-    else parent.right = newNode;
-    if (newNode) newNode.parent = currentNode.parent;
+  const transplant = (u: any, v: any) => {
+    if (u.parent === null) root = v;
+    else if (u === u.parent.left) u.parent.left = v;
+    else u.parent.right = v;
+    if (v) v.parent = u.parent;
   };
 
-  const getNextMinimum = (node: any) => {
-    let pointer = root;
-    while (pointer.left !== null) {
-      pointer = pointer.left;
+  const findMin = (node: any) => {
+    let cur = node;
+
+    while (cur && cur.left !== null) {
+      cur = cur.left;
     }
-    return pointer;
+
+    return cur;
   };
 
   const fixDeletion = (node: any) => {
-    let pointer = node;
-    while (pointer !== root && pointer.color === 'black') {
-      if (pointer === pointer.parent.left) {
-        let sibling = pointer.parent.right;
+    if (node === null) return;
+    let x = node;
+    while (x !== root && x?.color === 'black') {
+      if (x === x.parent.left) {
+        let w = x.parent.right;
         // case 1 => w is red (w is sibling)
-        if (sibling.color === 'red') {
-          sibling.color = 'black';
-          pointer.parent.color = 'red';
-          rotateLeft(pointer.parent);
+        if (w.color === 'red') {
+          w.color = 'black';
+          x.parent.color = 'red';
+          rotateLeft(x.parent);
+          w = x.parent.right;
         }
         // case 2 => w is black + w.left and w.right are black
-        if (sibling.left.color === 'black' && sibling.right.color === 'right') {
-          sibling.color = 'red';
-          pointer = pointer.parent;
+        if (w.left.color === 'black' && w.right.color === 'right') {
+          w.color = 'red';
+          x = x.parent;
         } else {
           // case 3 => w is black + w.left is red and w.right is black
-          if (sibling.right.color === 'black') {
-            sibling.left.color = 'black';
-            sibling.color = 'red';
-            rotateRight(sibling);
-            sibling = pointer.parent.right;
+          if (w.right.color === 'black') {
+            w.left.color = 'black';
+            w.color = 'red';
+            rotateRight(w);
+            w = x.parent.right;
           }
           // case 4 => w is black + w.right is red
-          sibling.color = pointer.parent.color;
-          pointer.parent.color = 'black';
-          sibling.right.color = 'black';
-          rotateLeft(pointer.parent);
-          pointer = root;
+          w.color = x.parent.color;
+          x.parent.color = 'black';
+          w.right.color = 'black';
+          rotateLeft(x.parent);
+          x = root;
         }
       } else {
         // node === node.parent.right
-        let sibling = pointer.parent.left;
+        let w = x.parent.left;
         // case 1 => w is red (w is sibling)
-        if (sibling.color === 'red') {
-          sibling.color = 'black';
-          pointer.parent.color = 'red';
-          rotateRight(pointer.parent);
+        if (w.color === 'red') {
+          w.color = 'black';
+          x.parent.color = 'red';
+          rotateRight(x.parent);
+          w = x.parent.left;
         }
         // case 2 => w is black + w.left and w.right are black
-        if (sibling.left.color === 'black' && sibling.right.color === 'right') {
-          sibling.color = 'red';
-          pointer = pointer.parent;
+        if (w.right.color === 'black' && w.left.color === 'right') {
+          w.color = 'red';
+          x = x.parent;
         } else {
           // case 3 => w is black + w.left is red and w.right is black
-          if (sibling.left.color === 'black') {
-            sibling.right.color = 'black';
-            sibling.color = 'red';
-            rotateLeft(sibling);
-            sibling = pointer.parent.right;
+          if (w.left.color === 'black') {
+            w.right.color = 'black';
+            w.color = 'red';
+            rotateLeft(w);
+            w = x.parent.right;
           }
           // case 4 => w is black + w.right is red
-          sibling.color = pointer.parent.color;
-          pointer.parent.color = 'black';
-          sibling.left.color = 'black';
-          rotateRight(pointer.parent);
-          pointer = root;
+          w.color = x.parent.color;
+          x.parent.color = 'black';
+          w.left.color = 'black';
+          rotateRight(x.parent);
+          x = root;
         }
       }
     }
-    pointer.color = 'black';
+    x.color = 'black';
   };
 
   const deleteNode = (id: number) => {
-    const node = search(id);
-    if (!node) return undefined;
-    let target = node;
-    let targetOriginalColor = target.color;
+    const z = search(id);
+    if (!z) return undefined;
+    let y = z;
+    let yOriginalColor = y.color;
     // determine case
-    let temp;
-    if (target.left === null) {
+    let x;
+    if (z.left === null) {
       // case 1 => left child is null
-      temp = target.right;
-      transplant(target, target.left);
-    } else if (target.right === null) {
+      x = z.right;
+      transplant(z, z.right);
+    } else if (z.right === null) {
       // case 2 => right child is null
-      temp = target.left;
-      transplant(target, target.left);
+      x = z.left;
+      transplant(z, z.left);
     } else {
       // case 3 => neither child is null
-      target = getNextMinimum(node.right);
-      targetOriginalColor = target.color;
-      temp = target.right;
-      if (target.parent === node.right) {
-        temp.parent = target;
+
+      y = findMin(z.right);
+
+      yOriginalColor = y.color;
+      x = y.right;
+      if (y.parent === z) {
+        x.parent = y;
       } else {
-        transplant(target, target.right);
-        temp.right = node.right;
-        temp.right.parent = target;
+        transplant(y, y.right);
+        y.right = z.right;
+        y.right.parent = y;
       }
-      transplant(node, temp);
-      target.left = node.left;
-      target.left.parent = target;
-      target.color = node.color;
+      transplant(z, y);
+      y.left = z.left;
+      y.left.parent = y;
+      y.color = z.color;
     }
-    if (targetOriginalColor === 'black') fixDeletion(temp);
+    if (yOriginalColor === 'black') fixDeletion(x);
   };
   //
   const levelOrderTraversal = () => {
