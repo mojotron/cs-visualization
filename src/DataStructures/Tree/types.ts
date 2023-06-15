@@ -27,10 +27,7 @@ export type NodeRedBlack<T> = {
 
 export type RedBlackTreeType<T> = {
   insert: (id: number, value: T) => void;
-  remove: () => void;
-  search: () => void;
-  // TEMP
-  print: () => void;
-  rotateLeft: (node: NodeRedBlack<T>) => void;
-  rotateRight: (node: NodeRedBlack<T>) => void;
+  remove: (id: number) => undefined;
+  search: (id: number) => undefined | T;
+  levelOrderTraversal: () => string[][];
 };
