@@ -15,3 +15,19 @@ export type AVLTreeType<T> = {
   getValue: (id: string) => undefined | T;
   height: number;
 };
+
+export type NodeRedBlack<T> = {
+  id: number;
+  value: T;
+  color: 'red' | 'black';
+  left: NodeRedBlack<T> | null;
+  right: NodeRedBlack<T> | null;
+  parent: NodeRedBlack<T> | null;
+};
+
+export type RedBlackTreeType<T> = {
+  insert: (id: number, value: T) => void;
+  remove: (id: number) => undefined;
+  search: (id: number) => undefined | T;
+  levelOrderTraversal: () => string[][];
+};
